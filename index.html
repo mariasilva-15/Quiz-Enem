@@ -22,20 +22,18 @@
     }
 
     .app {
-      max-width: 1000px;
+      max-width: 1100px;
       width: 100%;
       background: #ffffff;
       border-radius: 48px 48px 40px 40px;
       box-shadow: 0 20px 40px rgba(0, 80, 120, 0.20);
       padding: 2.5rem 2.8rem;
       border: 1px solid rgba(180, 215, 240, 0.5);
-      transition: 0.2s;
     }
 
-    /* cabeçalho */
     .brand {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
     }
     .brand h1 {
       font-size: 3.2rem;
@@ -57,26 +55,28 @@
       letter-spacing: 2px;
     }
 
-    /* grade de disciplinas */
+    /* navegação em dois níveis */
+    .nav-area {
+      margin-bottom: 2rem;
+    }
     .discipline-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 0.9rem;
-      margin-bottom: 2.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
     }
     .discipline-btn {
       background: #f0f9ff;
       border: 2px solid #c5e0f0;
       border-radius: 60px;
-      padding: 0.8rem 0.4rem;
+      padding: 0.7rem 0.3rem;
       font-weight: 600;
       font-size: 0.95rem;
       color: #063f58;
       cursor: pointer;
       transition: 0.15s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
       text-align: center;
-      letter-spacing: 0.3px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
     .discipline-btn:hover {
       background: #dcecf7;
@@ -89,7 +89,48 @@
       box-shadow: 0 4px 10px rgba(30, 130, 180, 0.15);
     }
 
-    /* card pergunta */
+    /* subdisciplinas */
+    .sub-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1rem;
+      background: #f5fafe;
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid #d6eaf5;
+      margin-top: 0.2rem;
+      min-height: 3.2rem;
+      align-items: center;
+    }
+    .sub-grid-label {
+      font-weight: 600;
+      color: #1a5e7a;
+      margin-right: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .sub-btn {
+      background: transparent;
+      border: 2px solid transparent;
+      border-radius: 40px;
+      padding: 0.3rem 1.2rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #144f6b;
+      cursor: pointer;
+      transition: 0.12s;
+    }
+    .sub-btn:hover {
+      background: #e0eff9;
+      border-color: #95c2db;
+    }
+    .sub-btn.active-sub {
+      background: #c7e5f5;
+      border-color: #3f8fb5;
+      font-weight: 600;
+      color: #043e55;
+    }
+
+    /* pergunta */
     .question-card {
       background: #fafffe;
       border-radius: 36px;
@@ -142,7 +183,6 @@
       flex: 1;
     }
 
-    /* barra de ações */
     .action-bar {
       display: flex;
       flex-wrap: wrap;
@@ -167,7 +207,6 @@
       cursor: pointer;
       transition: 0.15s;
       border: 1px solid #a2cde3;
-      box-shadow: 0 4px 8px rgba(0, 70, 120, 0.06);
     }
     .btn-primary:hover {
       background: #b3daf0;
@@ -193,8 +232,8 @@
     }
     .btn-check:disabled {
       opacity: 0.5;
-      transform: none;
       cursor: not-allowed;
+      transform: none;
     }
     .btn-reset {
       background: transparent;
@@ -210,8 +249,12 @@
       background: #e5f1f9;
       border-color: #589fc0;
     }
+    .counter {
+      font-size: 0.95rem;
+      color: #2f7897;
+    }
 
-    /* feedback com cores */
+    /* feedback */
     .feedback-box {
       margin-top: 1.8rem;
       padding: 1.2rem 2rem;
@@ -266,16 +309,12 @@
       line-height: 1.5;
     }
 
-    .counter {
-      font-size: 0.95rem;
-      color: #2f7897;
-    }
-
     @media (max-width: 650px) {
       .app { padding: 1.8rem 1.2rem; }
       .brand h1 { font-size: 2.4rem; }
       .question-text { font-size: 1.25rem; }
       .discipline-grid { grid-template-columns: repeat(2, 1fr); }
+      .sub-grid { flex-direction: column; align-items: stretch; gap: 0.3rem; }
     }
     @media (max-width: 420px) {
       .brand h1 { font-size: 2rem; }
@@ -289,17 +328,23 @@
     <h1>IME QUIZ <small>Enem</small></h1>
   </div>
 
-  <!-- disciplinas -->
-  <div class="discipline-grid" id="disciplineGrid">
-    <button class="discipline-btn" data-discipline="linguagens">📖 Linguagens</button>
-    <button class="discipline-btn" data-discipline="humanas">🌍 Humanas</button>
-    <button class="discipline-btn" data-discipline="natureza">🔬 Natureza</button>
-    <button class="discipline-btn" data-discipline="matematica">📐 Matemática</button>
+  <!-- navegação: áreas e subdisciplinas -->
+  <div class="nav-area">
+    <div class="discipline-grid" id="disciplineGrid">
+      <button class="discipline-btn" data-area="linguagens">📖 Linguagens</button>
+      <button class="discipline-btn" data-area="humanas">🌍 Humanas</button>
+      <button class="discipline-btn" data-area="natureza">🔬 Natureza</button>
+      <button class="discipline-btn" data-area="matematica">📐 Matemática</button>
+    </div>
+    <div class="sub-grid" id="subGrid">
+      <span class="sub-grid-label">📌 Matéria:</span>
+      <!-- os botões serão gerados via JS -->
+    </div>
   </div>
 
   <!-- pergunta -->
   <div class="question-card">
-    <div class="question-text" id="questionDisplay">Selecione uma disciplina para começar</div>
+    <div class="question-text" id="questionDisplay">Selecione uma área e matéria</div>
     <div class="options-grid" id="optionsContainer"></div>
   </div>
 
@@ -313,7 +358,7 @@
     <span class="counter" id="counter">0 / 0</span>
   </div>
 
-  <!-- feedback + explicação -->
+  <!-- feedback -->
   <div class="feedback-box" id="feedbackBox">
     <div class="feedback-row">
       <span id="feedbackEmoji">💡</span>
@@ -327,67 +372,138 @@
   (function() {
     "use strict";
 
-    // ---------- BANCO DE QUESTÕES (mínimo 10 por disciplina) ----------
+    // ---------- BANCO DE QUESTÕES COM SUBDISCIPLINAS ----------
+    // Cada área contém um objeto com subdisciplinas (cada uma com array de perguntas)
     const bank = {
-      linguagens: [
-        { pergunta: 'Qual figura de linguagem está presente em "O vento sussurrava segredos"?', opcoes: ['Metáfora', 'Prosopopeia', 'Comparação', 'Eufemismo'], correta: 1, explicacao: 'Prosopopeia (ou personificação) atribui ações humanas a seres inanimados.' },
-        { pergunta: 'Em "Os Lusíadas", de Camões, qual é o tema central?', opcoes: ['A descoberta da América', 'As navegações portuguesas', 'A guerra de Troia', 'O amor platônico'], correta: 1, explicacao: '"Os Lusíadas" exalta as navegações e a história de Portugal.' },
-        { pergunta: 'Qual destas palavras é um estrangeirismo incorporado ao português?', opcoes: ['Xícara', 'Futebol', 'Abajur', 'Mouse'], correta: 3, explicacao: '"Mouse" é um estrangeirismo (do inglês) muito usado na informática.' },
-        { pergunta: 'O que é uma crônica?', opcoes: ['Narrativa longa e fictícia', 'Texto teatral', 'Narrativa curta sobre o cotidiano', 'Poema épico'], correta: 2, explicacao: 'A crônica é um gênero textual curto que aborda o cotidiano com tom leve.' },
-        { pergunta: 'Qual obra é de Clarice Lispector?', opcoes: ['Dom Casmurro', 'A Hora da Estrela', 'O Cortiço', 'Grande Sertão: Veredas'], correta: 1, explicacao: '"A Hora da Estrela" é um dos romances mais conhecidos de Clarice Lispector.' },
-        { pergunta: 'O que diferencia a fala da escrita?', opcoes: ['A fala é mais informal e espontânea', 'A escrita é sempre mais correta', 'Não há diferenças', 'A fala usa mais advérbios'], correta: 0, explicacao: 'A fala é geralmente mais informal, espontânea e com marcas de oralidade.' },
-        { pergunta: 'Em "O Guarani", de José de Alencar, qual é o personagem principal?', opcoes: ['Peri', 'Iracema', 'Ubirajara', 'Potira'], correta: 0, explicacao: 'Peri é o índio protagonista de "O Guarani", romance indianista.' },
-        { pergunta: 'Qual é a função da linguagem predominante em uma placa de "PARE"?', opcoes: ['Fática', 'Conativa', 'Emotiva', 'Metalinguística'], correta: 1, explicacao: 'A função conativa (apelativa) tem o objetivo de influenciar o receptor, como em ordens.' },
-        { pergunta: 'O Arcadismo valorizava:', opcoes: ['A vida urbana', 'A natureza e a simplicidade', 'O individualismo', 'O pessimismo'], correta: 1, explicacao: 'O Arcadismo exaltava a natureza, a simplicidade e a vida no campo.' },
-        { pergunta: 'Qual é o gênero textual de uma receita culinária?', opcoes: ['Descritivo', 'Injuntivo', 'Narrativo', 'Argumentativo'], correta: 1, explicacao: 'A receita é um texto injuntivo, pois orienta o leitor a executar uma ação.' }
-      ],
-      humanas: [
-        { pergunta: 'A Revolução Francesa (1789) foi influenciada por quais ideias?', opcoes: ['Socialismo', 'Iluminismo', 'Anarquismo', 'Fascismo'], correta: 1, explicacao: 'O Iluminismo, com ideias de liberdade e igualdade, foi a base filosófica da Revolução Francesa.' },
-        { pergunta: 'Qual é o conceito de "mais-valia" para Karl Marx?', opcoes: ['Valor agregado pelo trabalho', 'Lucro do capitalista sobre o trabalho', 'Imposto sobre a produção', 'Custo da matéria-prima'], correta: 1, explicacao: 'Para Marx, a mais-valia é a diferença entre o valor produzido pelo trabalhador e o salário que ele recebe, apropriada pelo capitalista.' },
-        { pergunta: 'A Guerra Fria foi um conflito entre:', opcoes: ['EUA e URSS', 'França e Inglaterra', 'Alemanha e Itália', 'China e Japão'], correta: 0, explicacao: 'A Guerra Fria foi a disputa ideológica e geopolítica entre Estados Unidos (capitalismo) e União Soviética (socialismo).' },
-        { pergunta: 'O que é a Sociologia?', opcoes: ['Estudo do clima', 'Estudo das sociedades humanas', 'Estudo do direito', 'Estudo da mente'], correta: 1, explicacao: 'A Sociologia é a ciência que estuda a sociedade, suas estruturas e relações.' },
-        { pergunta: 'A Filosofia surgiu na Grécia Antiga com o objetivo de:', opcoes: ['Explicar os fenômenos naturais', 'Criticar a política', 'Buscar a sabedoria e o conhecimento', 'Fundar a religião'], correta: 2, explicacao: 'A Filosofia nasceu da busca pelo conhecimento racional e pela sabedoria, questionando o mundo.' },
-        { pergunta: 'O que foi o movimento "Diretas Já"?', opcoes: ['Campanha por eleições diretas para presidente', 'Revolução de 1930', 'Golpe militar de 1964', 'Movimento pela abolição da escravatura'], correta: 0, explicacao: '"Diretas Já" foi um movimento popular que lutou por eleições diretas para presidente no Brasil em 1984.' },
-        { pergunta: 'Qual teoria geográfica explica a relação entre países centrais e periféricos?', opcoes: ['Teoria da Modernização', 'Teoria da Dependência', 'Teoria Malthusiana', 'Determinismo ambiental'], correta: 1, explicacao: 'A Teoria da Dependência analisa a relação de subordinação entre países centrais (desenvolvidos) e periféricos (subdesenvolvidos).' },
-        { pergunta: 'O Iluminismo defendia:', opcoes: ['O absolutismo', 'A liberdade de pensamento', 'A censura', 'O teocentrismo'], correta: 1, explicacao: 'O Iluminismo valorizava a razão, a liberdade de pensamento e a crítica ao absolutismo.' },
-        { pergunta: 'Quem foi o fundador da Psicologia como ciência?', opcoes: ['Freud', 'Wundt', 'Piaget', 'Skinner'], correta: 1, explicacao: 'Wilhelm Wundt é considerado o pai da Psicologia científica, ao fundar o primeiro laboratório de psicologia.' },
-        { pergunta: 'A Primeira Guerra Mundial foi desencadeada por:', opcoes: ['O assassinato do arquiduque Francisco Ferdinando', 'A invasão da Polônia', 'O ataque a Pearl Harbor', 'A crise de 1929'], correta: 0, explicacao: 'O estopim da Primeira Guerra foi o assassinato do arquiduque austríaco Francisco Ferdinando, em 1914.' }
-      ],
-      natureza: [
-        { pergunta: 'Qual organela é responsável pela respiração celular?', opcoes: ['Cloroplasto', 'Mitocôndria', 'Ribossomo', 'Complexo de Golgi'], correta: 1, explicacao: 'A mitocôndria é a organela onde ocorre a respiração celular, produzindo ATP.' },
-        { pergunta: 'A água é considerada um solvente universal devido à sua:', opcoes: ['Polaridade', 'Acidez', 'Densidade', 'Cor'], correta: 0, explicacao: 'A polaridade da água permite que ela dissolva muitas substâncias, sendo chamada de solvente universal.' },
-        { pergunta: 'A Lei de Newton que diz "Toda ação gera uma reação" é a:', opcoes: ['1ª Lei', '2ª Lei', '3ª Lei', 'Lei da Gravitação'], correta: 2, explicacao: 'A 3ª Lei de Newton é o princípio da ação e reação.' },
-        { pergunta: 'Qual é a função do DNA?', opcoes: ['Produzir proteínas', 'Armazenar informação genética', 'Regular o metabolismo', 'Transportar oxigênio'], correta: 1, explicacao: 'O DNA armazena a informação genética que é passada de geração em geração.' },
-        { pergunta: 'A fotossíntese converte energia solar em:', opcoes: ['Energia elétrica', 'Energia química (glicose)', 'Energia térmica', 'Energia cinética'], correta: 1, explicacao: 'A fotossíntese transforma a energia luminosa em energia química, armazenada na glicose.' },
-        { pergunta: 'Qual elemento químico é indispensável para a formação de proteínas?', opcoes: ['Oxigênio', 'Nitrogênio', 'Carbono', 'Hidrogênio'], correta: 1, explicacao: 'O nitrogênio é um componente essencial dos aminoácidos, que formam as proteínas.' },
-        { pergunta: 'A pressão atmosférica é medida com:', opcoes: ['Termômetro', 'Barômetro', 'Hidrômetro', 'Velocímetro'], correta: 1, explicacao: 'O barômetro é o instrumento usado para medir a pressão atmosférica.' },
-        { pergunta: 'O processo de separação de misturas por pontos de ebulição chama-se:', opcoes: ['Filtração', 'Destilação', 'Cristalização', 'Decantação'], correta: 1, explicacao: 'A destilação separa misturas com base na diferença de pontos de ebulição.' },
-        { pergunta: 'O que é um ecossistema?', opcoes: ['Conjunto de seres vivos e ambiente', 'Apenas animais', 'Apenas plantas', 'Apenas o solo'], correta: 0, explicacao: 'Ecossistema é a interação entre os seres vivos (bióticos) e o ambiente (abiótico).' },
-        { pergunta: 'A velocidade da luz no vácuo é de aproximadamente:', opcoes: ['3,0 x 10⁸ m/s', '3,0 x 10⁶ m/s', '3,0 x 10¹⁰ m/s', '3,0 x 10⁴ m/s'], correta: 0, explicacao: 'A velocidade da luz no vácuo é de 3,0 x 10⁸ m/s (cerca de 300.000 km/s).' }
-      ],
-      matematica: [
-        { pergunta: 'Quanto é 2 + 2 × 2?', opcoes: ['6', '8', '4', '10'], correta: 0, explicacao: 'Primeiro a multiplicação: 2×2=4, depois a soma: 2+4=6.' },
-        { pergunta: 'Qual a raiz quadrada de 144?', opcoes: ['10', '11', '12', '13'], correta: 2, explicacao: '12 × 12 = 144, portanto a raiz quadrada de 144 é 12.' },
-        { pergunta: 'Qual é a área de um círculo de raio 3 cm? (π ≈ 3,14)', opcoes: ['18,84 cm²', '28,26 cm²', '9,42 cm²', '12,56 cm²'], correta: 1, explicacao: 'Área = π·r² = 3,14·9 = 28,26 cm².' },
-        { pergunta: 'Se f(x) = 2x + 3, qual é f(4)?', opcoes: ['8', '10', '11', '12'], correta: 2, explicacao: 'f(4) = 2·4 + 3 = 8 + 3 = 11.' },
-        { pergunta: 'Quantos lados tem um pentágono?', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: 'Pentágono tem 5 lados.' },
-        { pergunta: 'Qual o valor de x em 3x - 7 = 2?', opcoes: ['1', '2', '3', '4'], correta: 2, explicacao: '3x = 9 => x = 3.' },
-        { pergunta: 'A probabilidade de sair cara no lançamento de uma moeda é:', opcoes: ['1/4', '1/3', '1/2', '2/3'], correta: 2, explicacao: 'A moeda tem 2 lados, a chance de cara é 1/2.' },
-        { pergunta: 'Qual é a média aritmética de 10, 20, 30?', opcoes: ['15', '20', '25', '30'], correta: 1, explicacao: '(10+20+30)/3 = 60/3 = 20.' },
-        { pergunta: 'O que é um número primo?', opcoes: ['Divisível por 2', 'Divisível por 1 e por ele mesmo', 'Divisível por 3', 'Divisível por 4'], correta: 1, explicacao: 'Números primos têm apenas dois divisores: 1 e ele mesmo.' },
-        { pergunta: 'Quanto é 10! (10 fatorial)?', opcoes: ['3.628.800', '3.628.000', '3.628.800', '3.628.800'], correta: 0, explicacao: '10! = 10×9×8×7×6×5×4×3×2×1 = 3.628.800' }
-      ]
+      linguagens: {
+        'Língua Portuguesa': [
+          { pergunta: 'Qual figura de linguagem está em "O vento sussurrava segredos"?', opcoes: ['Metáfora', 'Prosopopeia', 'Comparação', 'Eufemismo'], correta: 1, explicacao: 'Prosopopeia (personificação) atribui ações humanas a seres inanimados.' },
+          { pergunta: 'Em "Os Lusíadas", de Camões, qual é o tema central?', opcoes: ['A descoberta da América', 'As navegações portuguesas', 'A guerra de Troia', 'O amor platônico'], correta: 1, explicacao: '"Os Lusíadas" exalta as navegações e a história de Portugal.' },
+          { pergunta: 'Qual destas palavras é um estrangeirismo incorporado ao português?', opcoes: ['Xícara', 'Futebol', 'Abajur', 'Mouse'], correta: 3, explicacao: '"Mouse" é um estrangeirismo (do inglês) muito usado na informática.' },
+          { pergunta: 'O que é uma crônica?', opcoes: ['Narrativa longa e fictícia', 'Texto teatral', 'Narrativa curta sobre o cotidiano', 'Poema épico'], correta: 2, explicacao: 'A crônica é um gênero textual curto que aborda o cotidiano com tom leve.' },
+          { pergunta: 'Qual obra é de Clarice Lispector?', opcoes: ['Dom Casmurro', 'A Hora da Estrela', 'O Cortiço', 'Grande Sertão: Veredas'], correta: 1, explicacao: '"A Hora da Estrela" é um dos romances mais conhecidos de Clarice Lispector.' },
+          { pergunta: 'O que diferencia a fala da escrita?', opcoes: ['A fala é mais informal e espontânea', 'A escrita é sempre mais correta', 'Não há diferenças', 'A fala usa mais advérbios'], correta: 0, explicacao: 'A fala é geralmente mais informal, espontânea e com marcas de oralidade.' },
+          { pergunta: 'Em "O Guarani", de José de Alencar, quem é o protagonista?', opcoes: ['Peri', 'Iracema', 'Ubirajara', 'Potira'], correta: 0, explicacao: 'Peri é o índio protagonista de "O Guarani", romance indianista.' },
+          { pergunta: 'Qual a função de linguagem predominante em uma placa de "PARE"?', opcoes: ['Fática', 'Conativa', 'Emotiva', 'Metalinguística'], correta: 1, explicacao: 'Função conativa (apelativa) influencia o receptor, como em ordens.' },
+          { pergunta: 'O Arcadismo valorizava:', opcoes: ['A vida urbana', 'A natureza e a simplicidade', 'O individualismo', 'O pessimismo'], correta: 1, explicacao: 'O Arcadismo exaltava a natureza, a simplicidade e a vida no campo.' },
+          { pergunta: 'Qual o gênero textual de uma receita culinária?', opcoes: ['Descritivo', 'Injuntivo', 'Narrativo', 'Argumentativo'], correta: 1, explicacao: 'A receita é um texto injuntivo, pois orienta o leitor a executar uma ação.' }
+        ],
+        'Literatura': [
+          { pergunta: 'Quem escreveu "Dom Casmurro"?', opcoes: ['Machado de Assis', 'José de Alencar', 'Carlos Drummond', 'Clarice Lispector'], correta: 0, explicacao: '"Dom Casmurro" é uma obra de Machado de Assis.' },
+          { pergunta: 'O Romantismo brasileiro teve como marco inicial:', opcoes: ['A publicação de "Iracema"', 'A publicação de "Suspiros Poéticos"', 'O Modernismo', 'O Arcadismo'], correta: 1, explicacao: '"Suspiros Poéticos e Saudades", de Gonçalves de Magalhães, é considerado o marco do Romantismo no Brasil.' },
+          { pergunta: 'Qual poeta é conhecido como "Poeta dos Escravos"?', opcoes: ['Castro Alves', 'Gonçalves Dias', 'Álvares de Azevedo', 'Casimiro de Abreu'], correta: 0, explicacao: 'Castro Alves é chamado de "Poeta dos Escravos" por sua luta contra a escravidão.' },
+          { pergunta: 'O Modernismo brasileiro começou com a Semana de Arte Moderna em:', opcoes: ['1922', '1930', '1945', '1910'], correta: 0, explicacao: 'A Semana de Arte Moderna de 1922 foi o marco inicial do Modernismo no Brasil.' },
+          { pergunta: 'Qual obra pertence ao Barroco brasileiro?', opcoes: ['O Guarani', 'Prosopopeia', 'Carta de Pero Vaz', 'Os Lusíadas'], correta: 1, explicacao: '"Prosopopeia", de Bento Teixeira, é uma obra do Barroco no Brasil.' },
+          { pergunta: 'O movimento literário que valorizava o "eu" e a subjetividade é o:', opcoes: ['Realismo', 'Romantismo', 'Parnasianismo', 'Simbolismo'], correta: 1, explicacao: 'O Romantismo valorizava o "eu", a subjetividade e os sentimentos.' },
+          { pergunta: 'Quem escreveu "Morte e Vida Severina"?', opcoes: ['João Cabral', 'Carlos Drummond', 'Manuel Bandeira', 'Cecília Meireles'], correta: 0, explicacao: '"Morte e Vida Severina" é um poema de João Cabral de Melo Neto.' },
+          { pergunta: 'A obra "Vidas Secas" é de:', opcoes: ['Graciliano Ramos', 'José Lins do Rego', 'Euclides da Cunha', 'Guimarães Rosa'], correta: 0, explicacao: '"Vidas Secas" é um romance de Graciliano Ramos.' },
+          { pergunta: 'O que caracteriza a poesia concreta?', opcoes: ['Métrica fixa', 'Exploração visual das palavras', 'Sentimentalismo', 'Narrativa longa'], correta: 1, explicacao: 'A poesia concreta explora a disposição visual das palavras no espaço.' },
+          { pergunta: 'O Parnasianismo é marcado pelo:', opcoes: ['Subjetivismo', 'Objetivismo e descrições', 'Versos livres', 'Nacionalismo'], correta: 1, explicacao: 'O Parnasianismo valorizava a objetividade, a descrição e a forma perfeita.' }
+        ]
+      },
+      humanas: {
+        'História': [
+          { pergunta: 'A Revolução Francesa (1789) foi influenciada por quais ideias?', opcoes: ['Socialismo', 'Iluminismo', 'Anarquismo', 'Fascismo'], correta: 1, explicacao: 'O Iluminismo, com ideias de liberdade e igualdade, foi a base filosófica da Revolução Francesa.' },
+          { pergunta: 'A Guerra Fria foi um conflito entre:', opcoes: ['EUA e URSS', 'França e Inglaterra', 'Alemanha e Itália', 'China e Japão'], correta: 0, explicacao: 'A Guerra Fria foi a disputa ideológica entre Estados Unidos (capitalismo) e União Soviética (socialismo).' },
+          { pergunta: 'O que foi o movimento "Diretas Já"?', opcoes: ['Campanha por eleições diretas', 'Revolução de 1930', 'Golpe de 1964', 'Abolição da escravatura'], correta: 0, explicacao: '"Diretas Já" foi a campanha por eleições diretas para presidente no Brasil em 1984.' },
+          { pergunta: 'A Primeira Guerra Mundial foi desencadeada por:', opcoes: ['Assassinato de Francisco Ferdinando', 'Invasão da Polônia', 'Ataque a Pearl Harbor', 'Crise de 1929'], correta: 0, explicacao: 'O estopim foi o assassinato do arquiduque Francisco Ferdinando, em 1914.' },
+          { pergunta: 'O que foi a Inconfidência Mineira?', opcoes: ['Movimento separatista em Minas', 'Revolta dos escravos', 'Guerra do Paraguai', 'Movimento abolicionista'], correta: 0, explicacao: 'A Inconfidência Mineira foi um movimento separatista ocorrido em Minas Gerais (1789).' },
+          { pergunta: 'Quem foi o líder da Independência do Brasil?', opcoes: ['Dom Pedro I', 'Dom João VI', 'Getúlio Vargas', 'Tiradentes'], correta: 0, explicacao: 'Dom Pedro I liderou o processo de independência do Brasil, proclamada em 1822.' },
+          { pergunta: 'O feudalismo predominou na Europa durante:', opcoes: ['Idade Antiga', 'Idade Média', 'Idade Moderna', 'Idade Contemporânea'], correta: 1, explicacao: 'O feudalismo foi o sistema social e político predominante na Idade Média.' },
+          { pergunta: 'A Revolução Russa de 1917 resultou na:', opcoes: ['Instauração do capitalismo', 'Criação da União Soviética', 'Restauração do czarismo', 'Independência da Rússia'], correta: 1, explicacao: 'A Revolução Russa levou à criação da União Soviética e ao fim do czarismo.' },
+          { pergunta: 'O que foi a Guerra do Vietnã?', opcoes: ['Conflito entre EUA e Vietnã do Norte', 'Guerra civil na Coreia', 'Conflito entre França e Vietnã', 'Guerra entre China e Japão'], correta: 0, explicacao: 'A Guerra do Vietnã foi um conflito entre os EUA (apoio ao Vietnã do Sul) e o Vietnã do Norte (comunista).' },
+          { pergunta: 'A queda do Muro de Berlim ocorreu em:', opcoes: ['1989', '1991', '1985', '1995'], correta: 0, explicacao: 'O Muro de Berlim foi derrubado em 1989, simbolizando o fim da Guerra Fria.' }
+        ],
+        'Geografia': [
+          { pergunta: 'Qual teoria explica a relação entre países centrais e periféricos?', opcoes: ['Teoria da Modernização', 'Teoria da Dependência', 'Teoria Malthusiana', 'Determinismo ambiental'], correta: 1, explicacao: 'A Teoria da Dependência analisa a subordinação dos países periféricos aos centrais.' },
+          { pergunta: 'O que são biomas?', opcoes: ['Regiões com clima e vegetação semelhantes', 'Divisões políticas', 'Áreas urbanas', 'Zonas climáticas'], correta: 0, explicacao: 'Biomas são grandes conjuntos de ecossistemas com características semelhantes.' },
+          { pergunta: 'A Amazônia é um bioma de:', opcoes: ['Floresta tropical', 'Savana', 'Tundra', 'Deserto'], correta: 0, explicacao: 'A Amazônia é a maior floresta tropical do mundo.' },
+          { pergunta: 'O que é a globalização?', opcoes: ['Integração econômica e cultural mundial', 'Fragmentação dos mercados', 'Isolamento político', 'Nacionalismo extremo'], correta: 0, explicacao: 'A globalização é o processo de integração econômica, cultural e política em escala global.' },
+          { pergunta: 'Qual é a corrente marítima que banha a costa brasileira?', opcoes: ['Corrente do Golfo', 'Corrente de Humboldt', 'Corrente do Brasil', 'Corrente do Atlântico Norte'], correta: 2, explicacao: 'A Corrente do Brasil é uma corrente quente que banha o litoral brasileiro.' },
+          { pergunta: 'O que é IDH?', opcoes: ['Índice de Desenvolvimento Humano', 'Índice de Desenvolvimento Econômico', 'Índice de Desigualdade', 'Índice de Pobreza'], correta: 0, explicacao: 'O IDH mede o desenvolvimento humano com base em saúde, educação e renda.' },
+          { pergunta: 'O fenômeno El Niño afeta:', opcoes: ['O aquecimento do Oceano Pacífico', 'O resfriamento do Atlântico', 'Aumento da umidade no deserto', 'Diminuição do nível do mar'], correta: 0, explicacao: 'O El Niño é o aquecimento anormal das águas do Pacífico, alterando o clima global.' },
+          { pergunta: 'Brasil é dividido em quantas regiões geográficas?', opcoes: ['4', '5', '6', '3'], correta: 1, explicacao: 'O Brasil é oficialmente dividido em 5 regiões: Norte, Nordeste, Centro-Oeste, Sudeste e Sul.' },
+          { pergunta: 'O que é a agricultura de subsistência?', opcoes: ['Produção para autoconsumo', 'Produção em larga escala', 'Exportação', 'Agricultura orgânica'], correta: 0, explicacao: 'A agricultura de subsistência visa atender às necessidades do produtor e sua família.' },
+          { pergunta: 'O que são aquíferos?', opcoes: ['Camadas subterrâneas de água', 'Rios superficiais', 'Lagos de água salgada', 'Geleiras'], correta: 0, explicacao: 'Aquíferos são formações geológicas que armazenam água subterrânea.' }
+        ],
+        'Filosofia': [
+          { pergunta: 'Quem é considerado o pai da Filosofia?', opcoes: ['Sócrates', 'Platão', 'Aristóteles', 'Tales de Mileto'], correta: 0, explicacao: 'Sócrates é considerado o pai da Filosofia ocidental, por seu método de questionamento.' },
+          { pergunta: 'A frase "Conhece-te a ti mesmo" é atribuída a:', opcoes: ['Sócrates', 'Platão', 'Nietzsche', 'Descartes'], correta: 0, explicacao: 'O autoconhecimento é um dos princípios centrais de Sócrates.' },
+          { pergunta: 'O que é o Empirismo?', opcoes: ['Doutrina que valoriza a experiência', 'Doutrina que valoriza a razão', 'Doutrina que nega o conhecimento', 'Doutrina religiosa'], correta: 0, explicacao: 'O Empirismo defende que o conhecimento vem da experiência sensorial.' },
+          { pergunta: 'Para Platão, o mundo sensível é:', opcoes: ['A verdadeira realidade', 'Uma cópia do mundo das ideias', 'O único existente', 'Ilusório e eterno'], correta: 1, explicacao: 'Platão via o mundo sensível como uma sombra do mundo das ideias (mundo inteligível).' },
+          { pergunta: 'O que é a "dúvida metódica" em Descartes?', opcoes: ['Duvidar de tudo para encontrar a verdade', 'Aceitar tudo sem questionar', 'Duvidar apenas de Deus', 'Rejeitar a matemática'], correta: 0, explicacao: 'Descartes propôs duvidar de tudo que pudesse ser duvidado para chegar a uma certeza.' },
+          { pergunta: 'O existencialismo tem como tema central:', opcoes: ['A essência do ser', 'A liberdade e a angústia', 'A felicidade plena', 'A vida após a morte'], correta: 1, explicacao: 'O existencialismo aborda a liberdade, a angústia e a responsabilidade do indivíduo.' },
+          { pergunta: 'O que é a ética para Aristóteles?', opcoes: ['A busca pela felicidade através da virtude', 'A obediência às leis', 'O prazer como fim', 'A indiferença'], correta: 0, explicacao: 'Para Aristóteles, a ética visa a felicidade (eudaimonia) por meio da virtude.' },
+          { pergunta: 'O Iluminismo defendia:', opcoes: ['O absolutismo', 'A liberdade de pensamento', 'A censura', 'O teocentrismo'], correta: 1, explicacao: 'O Iluminismo valorizava a razão, a liberdade de pensamento e a crítica ao absolutismo.' },
+          { pergunta: 'Quem escreveu "O Contrato Social"?', opcoes: ['Rousseau', 'Locke', 'Hobbes', 'Montesquieu'], correta: 0, explicacao: 'O "Contrato Social" é uma obra de Rousseau que discute a origem da sociedade.' },
+          { pergunta: 'A Filosofia Política de Maquiavel é marcada por:', opcoes: ['O idealismo', 'O realismo e a análise do poder', 'A utopia', 'A defesa da democracia'], correta: 1, explicacao: 'Maquiavel é conhecido por seu realismo político, analisando o poder como ele é.' }
+        ]
+      },
+      natureza: {
+        'Biologia': [
+          { pergunta: 'Qual organela é responsável pela respiração celular?', opcoes: ['Cloroplasto', 'Mitocôndria', 'Ribossomo', 'Complexo de Golgi'], correta: 1, explicacao: 'A mitocôndria é onde ocorre a respiração celular, produzindo ATP.' },
+          { pergunta: 'Qual é a função do DNA?', opcoes: ['Produzir proteínas', 'Armazenar informação genética', 'Regular o metabolismo', 'Transportar oxigênio'], correta: 1, explicacao: 'O DNA armazena a informação genética que é passada de geração em geração.' },
+          { pergunta: 'A fotossíntese converte energia solar em:', opcoes: ['Energia elétrica', 'Energia química (glicose)', 'Energia térmica', 'Energia cinética'], correta: 1, explicacao: 'A fotossíntese transforma a energia luminosa em energia química, armazenada na glicose.' },
+          { pergunta: 'O que é um ecossistema?', opcoes: ['Conjunto de seres vivos e ambiente', 'Apenas animais', 'Apenas plantas', 'Apenas o solo'], correta: 0, explicacao: 'Ecossistema é a interação entre os seres vivos (bióticos) e o ambiente (abiótico).' },
+          { pergunta: 'Qual é a unidade básica da vida?', opcoes: ['Átomo', 'Molécula', 'Célula', 'Tecido'], correta: 2, explicacao: 'A célula é a menor unidade estrutural e funcional dos seres vivos.' },
+          { pergunta: 'O que é uma cadeia alimentar?', opcoes: ['Relação de predação entre seres', 'Fluxo de energia e matéria', 'Relação de competição', 'Ciclo de vida'], correta: 1, explicacao: 'A cadeia alimentar representa o fluxo de energia e matéria entre os seres vivos.' },
+          { pergunta: 'Os vírus são considerados seres vivos?', opcoes: ['Sim, sempre', 'Não, pois não têm células', 'Sim, pois se reproduzem', 'Depende do ponto de vista'], correta: 3, explicacao: 'Os vírus não são considerados seres vivos por alguns, pois não têm células e só se replicam em hospedeiros.' },
+          { pergunta: 'Qual é o sistema que coordena as funções do corpo?', opcoes: ['Sistema endócrino', 'Sistema nervoso', 'Sistema circulatório', 'Sistema digestório'], correta: 1, explicacao: 'O sistema nervoso coordena as funções do corpo e responde a estímulos.' },
+          { pergunta: 'A evolução das espécies é explicada por:', opcoes: ['Darwin e a seleção natural', 'Lamarck e o uso e desuso', 'Mendel e a genética', 'Os três'], correta: 0, explicacao: 'A teoria da evolução por seleção natural de Darwin é a mais aceita para explicar a evolução.' },
+          { pergunta: 'Qual é o processo de divisão celular que forma gametas?', opcoes: ['Mitose', 'Meiose', 'Fissão binária', 'Brotamento'], correta: 1, explicacao: 'A meiose é o processo de divisão celular que forma gametas (células reprodutivas).' }
+        ],
+        'Química': [
+          { pergunta: 'A água é considerada um solvente universal devido à sua:', opcoes: ['Polaridade', 'Acidez', 'Densidade', 'Cor'], correta: 0, explicacao: 'A polaridade da água permite que ela dissolva muitas substâncias.' },
+          { pergunta: 'Qual elemento químico é indispensável para a formação de proteínas?', opcoes: ['Oxigênio', 'Nitrogênio', 'Carbono', 'Hidrogênio'], correta: 1, explicacao: 'O nitrogênio é um componente essencial dos aminoácidos, que formam as proteínas.' },
+          { pergunta: 'O processo de separação de misturas por pontos de ebulição chama-se:', opcoes: ['Filtração', 'Destilação', 'Cristalização', 'Decantação'], correta: 1, explicacao: 'A destilação separa misturas com base na diferença de pontos de ebulição.' },
+          { pergunta: 'Qual é a fórmula da água?', opcoes: ['H2O', 'CO2', 'NaCl', 'H2O2'], correta: 0, explicacao: 'A fórmula da água é H2O, composta por dois átomos de hidrogênio e um de oxigênio.' },
+          { pergunta: 'O que é uma reação de oxirredução?', opcoes: ['Reação com transferência de elétrons', 'Reação com troca de íons', 'Reação com liberação de gás', 'Reação com mudança de cor'], correta: 0, explicacao: 'Oxirredução envolve a transferência de elétrons entre as substâncias.' },
+          { pergunta: 'Qual é o pH da água pura?', opcoes: ['5', '7', '9', '14'], correta: 1, explicacao: 'O pH da água pura é 7, neutro.' },
+          { pergunta: 'A combustão é uma reação:', opcoes: ['Endotérmica', 'Exotérmica', 'Neutra', 'Fotossintética'], correta: 1, explicacao: 'A combustão libera energia na forma de calor, portanto é exotérmica.' },
+          { pergunta: 'O que são isômeros?', opcoes: ['Compostos com mesma fórmula e diferentes estruturas', 'Compostos com fórmulas diferentes', 'Compostos radioativos', 'Compostos inorgânicos'], correta: 0, explicacao: 'Isômeros são compostos que têm a mesma fórmula molecular, mas diferentes estruturas.' },
+          { pergunta: 'Qual gás é conhecido como "gás de cozinha"?', opcoes: ['Metano', 'Propano', 'Butano', 'Etanol'], correta: 1, explicacao: 'O gás de cozinha é geralmente propano ou butano, mas o principal é o propano.' },
+          { pergunta: 'A tabela periódica está organizada por:', opcoes: ['Número atômico crescente', 'Massa atômica decrescente', 'Ordem alfabética', 'Reatividade'], correta: 0, explicacao: 'A tabela periódica está organizada em ordem crescente de número atômico.' }
+        ],
+        'Física': [
+          { pergunta: 'A Lei de Newton que diz "Toda ação gera uma reação" é a:', opcoes: ['1ª Lei', '2ª Lei', '3ª Lei', 'Lei da Gravitação'], correta: 2, explicacao: 'A 3ª Lei de Newton é o princípio da ação e reação.' },
+          { pergunta: 'A pressão atmosférica é medida com:', opcoes: ['Termômetro', 'Barômetro', 'Hidrômetro', 'Velocímetro'], correta: 1, explicacao: 'O barômetro é o instrumento usado para medir a pressão atmosférica.' },
+          { pergunta: 'A velocidade da luz no vácuo é de aproximadamente:', opcoes: ['3,0 x 10⁸ m/s', '3,0 x 10⁶ m/s', '3,0 x 10¹⁰ m/s', '3,0 x 10⁴ m/s'], correta: 0, explicacao: 'A velocidade da luz no vácuo é de 3,0 x 10⁸ m/s.' },
+          { pergunta: 'O que é a inércia?', opcoes: ['Tendência de um corpo em manter seu estado', 'Força que acelera os corpos', 'Resistência do ar', 'Atrito entre superfícies'], correta: 0, explicacao: 'A inércia é a tendência de um corpo em manter seu estado de repouso ou movimento.' },
+          { pergunta: 'A energia cinética depende da:', opcoes: ['Massa e velocidade', 'Massa e altura', 'Velocidade e altura', 'Força e tempo'], correta: 0, explicacao: 'A energia cinética é dada por Ec = (1/2)mv², dependendo da massa e da velocidade.' },
+          { pergunta: 'O que é a aceleração da gravidade na Terra?', opcoes: ['~9,8 m/s²', '~10 m/s²', '~9,0 m/s²', '~8,9 m/s²'], correta: 0, explicacao: 'A aceleração da gravidade na Terra é aproximadamente 9,8 m/s².' },
+          { pergunta: 'A refração da luz ocorre quando:', opcoes: ['A luz muda de meio', 'A luz reflete em uma superfície', 'A luz é absorvida', 'A luz é polarizada'], correta: 0, explicacao: 'A refração é a mudança de direção da luz ao passar de um meio para outro.' },
+          { pergunta: 'Qual é a unidade de força no SI?', opcoes: ['Newton', 'Joule', 'Watt', 'Pascal'], correta: 0, explicacao: 'A unidade de força no Sistema Internacional é o Newton (N).' },
+          { pergunta: 'O som é uma onda:', opcoes: ['Mecânica', 'Eletromagnética', 'Longitudinal', 'Transversal'], correta: 0, explicacao: 'O som é uma onda mecânica, que precisa de um meio para se propagar.' },
+          { pergunta: 'A lei de Ohm relaciona:', opcoes: ['Tensão, corrente e resistência', 'Potência e energia', 'Força e aceleração', 'Pressão e volume'], correta: 0, explicacao: 'A lei de Ohm afirma que a tensão é igual ao produto da corrente pela resistência (V = R·I).' }
+        ]
+      },
+      matematica: {
+        'Matemática': [
+          { pergunta: 'Quanto é 2 + 2 × 2?', opcoes: ['6', '8', '4', '10'], correta: 0, explicacao: 'Primeiro a multiplicação: 2×2=4, depois a soma: 2+4=6.' },
+          { pergunta: 'Qual a raiz quadrada de 144?', opcoes: ['10', '11', '12', '13'], correta: 2, explicacao: '12 × 12 = 144, portanto a raiz quadrada de 144 é 12.' },
+          { pergunta: 'Qual é a área de um círculo de raio 3 cm? (π ≈ 3,14)', opcoes: ['18,84 cm²', '28,26 cm²', '9,42 cm²', '12,56 cm²'], correta: 1, explicacao: 'Área = π·r² = 3,14·9 = 28,26 cm².' },
+          { pergunta: 'Se f(x) = 2x + 3, qual é f(4)?', opcoes: ['8', '10', '11', '12'], correta: 2, explicacao: 'f(4) = 2·4 + 3 = 8 + 3 = 11.' },
+          { pergunta: 'Quantos lados tem um pentágono?', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: 'Pentágono tem 5 lados.' },
+          { pergunta: 'Qual o valor de x em 3x - 7 = 2?', opcoes: ['1', '2', '3', '4'], correta: 2, explicacao: '3x = 9 => x = 3.' },
+          { pergunta: 'A probabilidade de sair cara no lançamento de uma moeda é:', opcoes: ['1/4', '1/3', '1/2', '2/3'], correta: 2, explicacao: 'A moeda tem 2 lados, a chance de cara é 1/2.' },
+          { pergunta: 'Qual é a média aritmética de 10, 20, 30?', opcoes: ['15', '20', '25', '30'], correta: 1, explicacao: '(10+20+30)/3 = 60/3 = 20.' },
+          { pergunta: 'O que é um número primo?', opcoes: ['Divisível por 2', 'Divisível por 1 e por ele mesmo', 'Divisível por 3', 'Divisível por 4'], correta: 1, explicacao: 'Números primos têm apenas dois divisores: 1 e ele mesmo.' },
+          { pergunta: 'Quanto é 10! (10 fatorial)?', opcoes: ['3.628.800', '3.628.000', '3.628.800', '3.628.800'], correta: 0, explicacao: '10! = 10×9×8×7×6×5×4×3×2×1 = 3.628.800.' }
+        ]
+      }
     };
 
     // ---------- ESTADO ----------
-    let currentDiscipline = 'linguagens';
-    let questions = [];
+    let currentArea = 'linguagens';       // área selecionada
+    let currentSub = 'Língua Portuguesa'; // subdisciplina selecionada
+    let questions = [];                 // array de perguntas da sub atual
     let currentIndex = 0;
     let answered = false;
-    let selectedOption = null; // índice
+    let selectedOption = null;
 
     // DOM
     const disciplineBtns = document.querySelectorAll('.discipline-btn');
+    const subGrid = document.getElementById('subGrid');
     const questionDisplay = document.getElementById('questionDisplay');
     const optionsContainer = document.getElementById('optionsContainer');
     const checkBtn = document.getElementById('checkBtn');
@@ -399,21 +515,65 @@
     const feedbackExplication = document.getElementById('feedbackExplication');
 
     // ---------- FUNÇÕES ----------
-    function loadQuestions(discipline) {
-      currentDiscipline = discipline;
-      questions = bank[discipline] || [];
+    function getSubdisciplines(area) {
+      const areaData = bank[area];
+      if (!areaData) return [];
+      return Object.keys(areaData);
+    }
+
+    function getQuestions(area, sub) {
+      const areaData = bank[area];
+      if (!areaData) return [];
+      return areaData[sub] || [];
+    }
+
+    function renderSubButtons(area) {
+      const subs = getSubdisciplines(area);
+      subGrid.innerHTML = '<span class="sub-grid-label">📌 Matéria:</span>';
+      if (subs.length === 0) {
+        const span = document.createElement('span');
+        span.textContent = 'Nenhuma matéria disponível';
+        span.style.color = '#6f8fa0';
+        subGrid.appendChild(span);
+        return;
+      }
+      subs.forEach(sub => {
+        const btn = document.createElement('button');
+        btn.className = 'sub-btn';
+        btn.textContent = sub;
+        btn.dataset.sub = sub;
+        if (sub === currentSub) btn.classList.add('active-sub');
+        btn.addEventListener('click', function() {
+          const newSub = this.dataset.sub;
+          if (newSub !== currentSub) {
+            currentSub = newSub;
+            loadSubject(currentArea, currentSub);
+          }
+        });
+        subGrid.appendChild(btn);
+      });
+    }
+
+    function loadSubject(area, sub) {
+      currentArea = area;
+      currentSub = sub;
+      questions = getQuestions(area, sub);
       currentIndex = 0;
       answered = false;
       selectedOption = null;
       renderQuestion();
-      updateActiveButton();
+      updateActiveButtons();
       clearFeedback();
-      counterSpan.textContent = `1 / ${questions.length}`;
+      if (questions.length > 0) {
+        counterSpan.textContent = `1 / ${questions.length}`;
+      } else {
+        counterSpan.textContent = '0 / 0';
+      }
     }
 
     function renderQuestion() {
       if (!questions || questions.length === 0) {
-        questionDisplay.textContent = 'Nenhuma pergunta disponível.';
+        questionDisplay.textContent = 'Nenhuma pergunta disponível para esta matéria.';
         optionsContainer.innerHTML = '';
         return;
       }
@@ -437,10 +597,8 @@
 
         radio.addEventListener('change', function() {
           if (answered) {
-            // se já respondeu, ao mudar a opção, resetamos o estado de resposta
             answered = false;
             clearFeedback();
-            // mas mantém a seleção
           }
           selectedOption = idx;
         });
@@ -450,9 +608,9 @@
       radios.forEach(r => r.checked = false);
       selectedOption = null;
       answered = false;
-      // contador
-      counterSpan.textContent = `${currentIndex+1} / ${questions.length}`;
-      // reset feedback visual
+      if (questions.length > 0) {
+        counterSpan.textContent = `${currentIndex+1} / ${questions.length}`;
+      }
       clearFeedback();
     }
 
@@ -461,17 +619,20 @@
       feedbackMessage.textContent = 'Escolha uma opção e verifique';
       feedbackExplication.style.display = 'none';
       feedbackExplication.innerHTML = '';
-      // remove classes de badge
       const badge = document.querySelector('.feedback-badge');
       if (badge) badge.remove();
     }
 
-    function updateActiveButton() {
+    function updateActiveButtons() {
       disciplineBtns.forEach(btn => {
         btn.classList.remove('active');
-        if (btn.dataset.discipline === currentDiscipline) {
-          btn.classList.add('active');
-        }
+        if (btn.dataset.area === currentArea) btn.classList.add('active');
+      });
+      // atualiza sub-buttons
+      const subBtns = subGrid.querySelectorAll('.sub-btn');
+      subBtns.forEach(btn => {
+        btn.classList.remove('active-sub');
+        if (btn.dataset.sub === currentSub) btn.classList.add('active-sub');
       });
     }
 
@@ -493,15 +654,12 @@
       const isCorrect = (idx === q.correta);
       const correctText = q.opcoes[q.correta];
 
-      // marca resposta
       answered = true;
       selectedOption = idx;
 
-      // feedback visual
       const badge = document.createElement('span');
       badge.className = `feedback-badge ${isCorrect ? 'acertou' : 'errou'}`;
       badge.textContent = isCorrect ? '✅ Acertou!' : '❌ Errou!';
-      // remove badge antigo
       const oldBadge = document.querySelector('.feedback-badge');
       if (oldBadge) oldBadge.remove();
 
@@ -513,18 +671,12 @@
       correctSpan.textContent = `Resposta correta: ${correctText}`;
       feedbackMessage.appendChild(correctSpan);
 
-      // Explicação
       feedbackExplication.style.display = 'block';
       feedbackExplication.innerHTML = `<strong>💬 Explicação:</strong> ${q.explicacao}`;
     }
 
     function nextQuestion() {
       if (!questions || questions.length === 0) return;
-      if (!answered) {
-        // se não respondeu, apenas avança? melhor permitir, mas avisa.
-        // Vamos permitir, mas reseta o feedback
-      }
-      // avança para a próxima, ou volta ao início
       let next = currentIndex + 1;
       if (next >= questions.length) next = 0;
       currentIndex = next;
@@ -532,7 +684,6 @@
       selectedOption = null;
       renderQuestion();
       clearFeedback();
-      // remove badge
       const oldBadge = document.querySelector('.feedback-badge');
       if (oldBadge) oldBadge.remove();
       feedbackExplication.style.display = 'none';
@@ -542,7 +693,7 @@
     }
 
     function resetQuiz() {
-      loadQuestions(currentDiscipline);
+      loadSubject(currentArea, currentSub);
       clearFeedback();
       const oldBadge = document.querySelector('.feedback-badge');
       if (oldBadge) oldBadge.remove();
@@ -554,14 +705,22 @@
     // ---------- EVENTOS ----------
     disciplineBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        const disc = this.dataset.discipline;
-        if (disc !== currentDiscipline) {
-          loadQuestions(disc);
+        const area = this.dataset.area;
+        if (area !== currentArea) {
+          currentArea = area;
+          const subs = getSubdisciplines(area);
+          if (subs.length > 0) {
+            currentSub = subs[0];
+          } else {
+            currentSub = '';
+          }
+          renderSubButtons(area);
+          loadSubject(currentArea, currentSub);
           clearFeedback();
           const oldBadge = document.querySelector('.feedback-badge');
           if (oldBadge) oldBadge.remove();
           feedbackExplication.style.display = 'none';
-          feedbackMessage.textContent = `📚 ${disc.charAt(0).toUpperCase()+disc.slice(1)} selecionada.`;
+          feedbackMessage.textContent = `📚 Área ${area.charAt(0).toUpperCase()+area.slice(1)} selecionada.`;
         }
       });
     });
@@ -571,7 +730,13 @@
     resetBtn.addEventListener('click', resetQuiz);
 
     // ---------- INICIALIZA ----------
-    loadQuestions('linguagens');
+    // inicia com Linguagens / Língua Portuguesa
+    currentArea = 'linguagens';
+    currentSub = 'Língua Portuguesa';
+    renderSubButtons(currentArea);
+    loadSubject(currentArea, currentSub);
+    updateActiveButtons();
+    feedbackMessage.textContent = '📌 Escolha uma matéria específica nas opções acima.';
   })();
 </script>
 </body>
