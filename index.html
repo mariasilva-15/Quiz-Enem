@@ -55,7 +55,6 @@
       letter-spacing: 2px;
     }
 
-    /* navegação em dois níveis */
     .nav-area {
       margin-bottom: 2rem;
     }
@@ -89,7 +88,6 @@
       box-shadow: 0 4px 10px rgba(30, 130, 180, 0.15);
     }
 
-    /* subdisciplinas */
     .sub-grid {
       display: flex;
       flex-wrap: wrap;
@@ -130,7 +128,6 @@
       color: #043e55;
     }
 
-    /* pergunta */
     .question-card {
       background: #fafffe;
       border-radius: 36px;
@@ -254,7 +251,6 @@
       color: #2f7897;
     }
 
-    /* feedback */
     .feedback-box {
       margin-top: 1.8rem;
       padding: 1.2rem 2rem;
@@ -328,7 +324,6 @@
     <h1>IME QUIZ <small>Enem</small></h1>
   </div>
 
-  <!-- navegação: áreas e subdisciplinas -->
   <div class="nav-area">
     <div class="discipline-grid" id="disciplineGrid">
       <button class="discipline-btn" data-area="linguagens">📖 Linguagens</button>
@@ -338,17 +333,14 @@
     </div>
     <div class="sub-grid" id="subGrid">
       <span class="sub-grid-label">📌 Matéria:</span>
-      <!-- os botões serão gerados via JS -->
     </div>
   </div>
 
-  <!-- pergunta -->
   <div class="question-card">
     <div class="question-text" id="questionDisplay">Selecione uma área e matéria</div>
     <div class="options-grid" id="optionsContainer"></div>
   </div>
 
-  <!-- ações -->
   <div class="action-bar">
     <div class="btn-group">
       <button class="btn-check" id="checkBtn">✔ Verificar</button>
@@ -358,7 +350,6 @@
     <span class="counter" id="counter">0 / 0</span>
   </div>
 
-  <!-- feedback -->
   <div class="feedback-box" id="feedbackBox">
     <div class="feedback-row">
       <span id="feedbackEmoji">💡</span>
@@ -372,8 +363,7 @@
   (function() {
     "use strict";
 
-    // ---------- BANCO DE QUESTÕES COM SUBDISCIPLINAS ----------
-    // Cada área contém um objeto com subdisciplinas (cada uma com array de perguntas)
+    // ---------- BANCO DE QUESTÕES COM SUBDISCIPLINAS (incluindo Artes, Sociologia, Educação Física, Inglês, Espanhol) ----------
     const bank = {
       linguagens: {
         'Língua Portuguesa': [
@@ -399,12 +389,60 @@
           { pergunta: 'A obra "Vidas Secas" é de:', opcoes: ['Graciliano Ramos', 'José Lins do Rego', 'Euclides da Cunha', 'Guimarães Rosa'], correta: 0, explicacao: '"Vidas Secas" é um romance de Graciliano Ramos.' },
           { pergunta: 'O que caracteriza a poesia concreta?', opcoes: ['Métrica fixa', 'Exploração visual das palavras', 'Sentimentalismo', 'Narrativa longa'], correta: 1, explicacao: 'A poesia concreta explora a disposição visual das palavras no espaço.' },
           { pergunta: 'O Parnasianismo é marcado pelo:', opcoes: ['Subjetivismo', 'Objetivismo e descrições', 'Versos livres', 'Nacionalismo'], correta: 1, explicacao: 'O Parnasianismo valorizava a objetividade, a descrição e a forma perfeita.' }
+        ],
+        'Artes': [
+          { pergunta: 'O que é a arte renascentista?', opcoes: ['Arte com ênfase no divino', 'Arte que valoriza a razão e a ciência', 'Arte abstrata', 'Arte barroca'], correta: 1, explicacao: 'O Renascimento valorizava a razão, a ciência e a perspectiva, com inspiração na cultura clássica.' },
+          { pergunta: 'Qual movimento artístico é conhecido por suas cores vibrantes e formas distorcidas?', opcoes: ['Expressionismo', 'Impressionismo', 'Cubismo', 'Surrealismo'], correta: 0, explicacao: 'O Expressionismo usa cores intensas e formas distorcidas para expressar emoções.' },
+          { pergunta: 'O que é a arte contemporânea?', opcoes: ['Arte produzida no século XX e XXI', 'Arte clássica grega', 'Arte medieval', 'Arte renascentista'], correta: 0, explicacao: 'A arte contemporânea abrange as produções artísticas do século XX até os dias atuais.' },
+          { pergunta: 'Qual obra é de Tarsila do Amaral?', opcoes: ['Abaporu', 'O Grito', 'A Persistência da Memória', 'Guernica'], correta: 0, explicacao: '"Abaporu" é uma obra icônica da pintora modernista Tarsila do Amaral.' },
+          { pergunta: 'O que é a escultura grega clássica?', opcoes: ['Representação de deuses em poses naturais', 'Estátuas abstratas', 'Arte rupestre', 'Arte gótica'], correta: 0, explicacao: 'A escultura grega clássica buscava a representação idealizada e naturalista do corpo humano.' },
+          { pergunta: 'Qual técnica de pintura utiliza pigmentos misturados com ovo?', opcoes: ['Têmpera', 'Óleo', 'Aquarela', 'Acrílica'], correta: 0, explicacao: 'A têmpera é uma técnica antiga que usa gema de ovo como aglutinante dos pigmentos.' },
+          { pergunta: 'O que é a arte abstrata?', opcoes: ['Arte que não representa a realidade de forma figurativa', 'Arte que imita a natureza', 'Arte com temas religiosos', 'Arte de retratos'], correta: 0, explicacao: 'A arte abstrata afasta-se da representação figurativa para explorar formas, cores e composições.' },
+          { pergunta: 'Qual é o principal material usado na arte do grafite?', opcoes: ['Tinta spray', 'Lápis', 'Pincel', 'Carvão'], correta: 0, explicacao: 'O grafite é uma expressão artística urbana que usa principalmente tinta spray.' },
+          { pergunta: 'O que é o cubismo?', opcoes: ['Movimento que fragmenta as formas', 'Arte que valoriza a luz', 'Arte com temas históricos', 'Arte minimalista'], correta: 0, explicacao: 'O cubismo, com Picasso, fragmenta as formas em planos geométricos.' },
+          { pergunta: 'Qual é a função da arte na sociedade?', opcoes: ['Apenas entretenimento', 'Expressão cultural e crítica social', 'Decoração', 'Registro histórico'], correta: 1, explicacao: 'A arte tem função social, cultural e crítica, além de expressar emoções e ideias.' }
+        ],
+        'Educação Física': [
+          { pergunta: 'Qual é a origem do futebol moderno?', opcoes: ['Inglaterra', 'Brasil', 'Alemanha', 'Itália'], correta: 0, explicacao: 'O futebol moderno tem origem na Inglaterra, com as primeiras regras estabelecidas em 1863.' },
+          { pergunta: 'O que é a capoeira?', opcoes: ['Uma dança folclórica', 'Uma luta com elementos de dança e música', 'Um esporte olímpico', 'Um jogo de tabuleiro'], correta: 1, explicacao: 'A capoeira é uma expressão cultural afro-brasileira que combina luta, dança e música.' },
+          { pergunta: 'Qual o objetivo do alongamento?', opcoes: ['Aumentar a força', 'Melhorar a flexibilidade', 'Ganhar massa muscular', 'Perder peso'], correta: 1, explicacao: 'O alongamento visa melhorar a flexibilidade e prevenir lesões.' },
+          { pergunta: 'O que é o voleibol?', opcoes: ['Esporte com raquete', 'Esporte com bola jogado com as mãos', 'Esporte com gol', 'Esporte de combate'], correta: 1, explicacao: 'O voleibol é um esporte em que se usa as mãos para passar a bola por cima da rede.' },
+          { pergunta: 'Qual é a importância da atividade física?', opcoes: ['Apenas para estética', 'Saúde física e mental', 'Apenas para competição', 'Não tem importância'], correta: 1, explicacao: 'A atividade física é fundamental para a saúde física, mental e o bem-estar geral.' },
+          { pergunta: 'O que é o basquetebol?', opcoes: ['Jogo com a mão e cesta', 'Jogo com os pés', 'Jogo de raquete', 'Jogo de combate'], correta: 0, explicacao: 'O basquetebol é um esporte onde os jogadores tentam acertar a cesta com a mão.' },
+          { pergunta: 'Qual é a função do aquecimento antes do exercício?', opcoes: ['Preparar o corpo para o esforço', 'Ganhar massa muscular', 'Melhorar a coordenação', 'Aumentar a flexibilidade'], correta: 0, explicacao: 'O aquecimento prepara o corpo para o esforço, aumentando a temperatura e a circulação.' },
+          { pergunta: 'O que é a natação?', opcoes: ['Esporte aquático', 'Esporte de corrida', 'Esporte de combate', 'Esporte de equipe'], correta: 0, explicacao: 'A natação é um esporte praticado na água, com diferentes estilos.' },
+          { pergunta: 'Qual é o esporte mais popular do mundo?', opcoes: ['Futebol', 'Basquetebol', 'Voleibol', 'Tênis'], correta: 0, explicacao: 'O futebol é considerado o esporte mais popular do mundo, com bilhões de fãs.' },
+          { pergunta: 'O que é a ginástica?', opcoes: ['Atividade que trabalha flexibilidade e força', 'Esporte com bola', 'Esporte de combate', 'Jogo de estratégia'], correta: 0, explicacao: 'A ginástica é uma atividade que desenvolve a flexibilidade, a força e a coordenação.' }
+        ],
+        'Inglês': [
+          { pergunta: 'Qual é a tradução de "I love you"?', opcoes: ['Eu odeio você', 'Eu amo você', 'Eu gosto de você', 'Eu quero você'], correta: 1, explicacao: '"I love you" significa "Eu amo você" em inglês.' },
+          { pergunta: 'O que significa "School"?', opcoes: ['Casa', 'Escola', 'Trabalho', 'Hospital'], correta: 1, explicacao: '"School" significa "escola" em português.' },
+          { pergunta: 'Qual é a forma correta do verbo "to be" para "He"?', opcoes: ['Is', 'Are', 'Am', 'Be'], correta: 0, explicacao: '"He is" é a forma correta do verbo "to be" para a terceira pessoa do singular.' },
+          { pergunta: 'O que é um "false friend"?', opcoes: ['Um amigo falso', 'Uma palavra que parece ter significado diferente', 'Um amigo verdadeiro', 'Uma palavra inglesa'], correta: 1, explicacao: 'Falsos cognatos (false friends) são palavras que parecem ter o mesmo significado, mas não têm.' },
+          { pergunta: 'Qual é o passado do verbo "go"?', opcoes: ['Went', 'Goed', 'Gone', 'Going'], correta: 0, explicacao: 'O passado de "go" é "went".' },
+          { pergunta: 'O que significa "Book"?', opcoes: ['Livro', 'Caderno', 'Revista', 'Jornal'], correta: 0, explicacao: '"Book" significa "livro".' },
+          { pergunta: 'Qual é a saudação em inglês para "Bom dia"?', opcoes: ['Good morning', 'Good afternoon', 'Good evening', 'Good night'], correta: 0, explicacao: '"Good morning" é a saudação para "Bom dia".' },
+          { pergunta: 'O que é o "Simple Present"?', opcoes: ['Tempo presente', 'Tempo passado', 'Tempo futuro', 'Tempo verbal'], correta: 0, explicacao: 'O "Simple Present" é o tempo verbal que expressa ações presentes ou rotineiras.' },
+          { pergunta: 'Qual é a tradução de "Happy"?', opcoes: ['Triste', 'Feliz', 'Bravo', 'Cansado'], correta: 1, explicacao: '"Happy" significa "feliz".' },
+          { pergunta: 'O que significa "Water"?', opcoes: ['Fogo', 'Ar', 'Água', 'Terra'], correta: 2, explicacao: '"Water" significa "água".' }
+        ],
+        'Espanhol': [
+          { pergunta: 'Como se diz "Olá" em espanhol?', opcoes: ['Hola', 'Ola', 'Hello', 'Bonjour'], correta: 0, explicacao: '"Hola" é a forma correta de dizer "Olá" em espanhol.' },
+          { pergunta: 'O que significa "Casa" em espanhol?', opcoes: ['Casa', 'Carro', 'Comida', 'Escola'], correta: 0, explicacao: '"Casa" em espanhol significa "casa" (residência).' },
+          { pergunta: 'Qual é a tradução de "Gracias" para português?', opcoes: ['Obrigado', 'Por favor', 'Desculpe', 'Ajuda'], correta: 0, explicacao: '"Gracias" significa "obrigado" em espanhol.' },
+          { pergunta: 'O que é o verbo "Ser" em espanhol?', opcoes: ['Ser', 'Estar', 'Haber', 'Tener'], correta: 0, explicacao: '"Ser" é um dos verbos principais em espanhol, equivalente a "ser" em português.' },
+          { pergunta: 'Como se diz "Eu" em espanhol?', opcoes: ['Yo', 'Me', 'Mí', 'Mi'], correta: 0, explicacao: '"Yo" é o pronome pessoal para "eu" em espanhol.' },
+          { pergunta: 'Qual é o plural de "Libro"?', opcoes: ['Libros', 'Libroes', 'Libri', 'Libres'], correta: 0, explicacao: 'O plural de "libro" (livro) é "libros".' },
+          { pergunta: 'O que significa "Amigo" em espanhol?', opcoes: ['Amigo', 'Inimigo', 'Conhecido', 'Parente'], correta: 0, explicacao: '"Amigo" tem o mesmo significado em português e espanhol.' },
+          { pergunta: 'Qual é a saudação para "Boa noite" em espanhol?', opcoes: ['Buenas noches', 'Buenas tardes', 'Buenos días', 'Hola'], correta: 0, explicacao: '"Buenas noches" é a saudação para "Boa noite".' },
+          { pergunta: 'O que é o "Pretérito Perfecto" em espanhol?', opcoes: ['Passado próximo', 'Futuro', 'Presente', 'Passado distante'], correta: 0, explicacao: 'O "Pretérito Perfecto" é usado para ações concluídas no passado recente.' },
+          { pergunta: 'Como se diz "Feliz" em espanhol?', opcoes: ['Feliz', 'Triste', 'Enojado', 'Cansado'], correta: 0, explicacao: '"Feliz" é a palavra para "feliz" em espanhol, igual ao português.' }
         ]
       },
       humanas: {
         'História': [
           { pergunta: 'A Revolução Francesa (1789) foi influenciada por quais ideias?', opcoes: ['Socialismo', 'Iluminismo', 'Anarquismo', 'Fascismo'], correta: 1, explicacao: 'O Iluminismo, com ideias de liberdade e igualdade, foi a base filosófica da Revolução Francesa.' },
-          { pergunta: 'A Guerra Fria foi um conflito entre:', opcoes: ['EUA e URSS', 'França e Inglaterra', 'Alemanha e Itália', 'China e Japão'], correta: 0, explicacao: 'A Guerra Fria foi a disputa ideológica entre Estados Unidos (capitalismo) e União Soviética (socialismo).' },
+          { pergunta: 'A Guerra Fria foi um conflito entre:', opcoes: ['EUA e URSS', 'França e Inglaterra', 'Alemanha e Itália', 'China e Japão'], correta: 0, explicacao: 'A Guerra Fria foi a disputa ideológica entre EUA (capitalismo) e URSS (socialismo).' },
           { pergunta: 'O que foi o movimento "Diretas Já"?', opcoes: ['Campanha por eleições diretas', 'Revolução de 1930', 'Golpe de 1964', 'Abolição da escravatura'], correta: 0, explicacao: '"Diretas Já" foi a campanha por eleições diretas para presidente no Brasil em 1984.' },
           { pergunta: 'A Primeira Guerra Mundial foi desencadeada por:', opcoes: ['Assassinato de Francisco Ferdinando', 'Invasão da Polônia', 'Ataque a Pearl Harbor', 'Crise de 1929'], correta: 0, explicacao: 'O estopim foi o assassinato do arquiduque Francisco Ferdinando, em 1914.' },
           { pergunta: 'O que foi a Inconfidência Mineira?', opcoes: ['Movimento separatista em Minas', 'Revolta dos escravos', 'Guerra do Paraguai', 'Movimento abolicionista'], correta: 0, explicacao: 'A Inconfidência Mineira foi um movimento separatista ocorrido em Minas Gerais (1789).' },
@@ -437,6 +475,18 @@
           { pergunta: 'O Iluminismo defendia:', opcoes: ['O absolutismo', 'A liberdade de pensamento', 'A censura', 'O teocentrismo'], correta: 1, explicacao: 'O Iluminismo valorizava a razão, a liberdade de pensamento e a crítica ao absolutismo.' },
           { pergunta: 'Quem escreveu "O Contrato Social"?', opcoes: ['Rousseau', 'Locke', 'Hobbes', 'Montesquieu'], correta: 0, explicacao: 'O "Contrato Social" é uma obra de Rousseau que discute a origem da sociedade.' },
           { pergunta: 'A Filosofia Política de Maquiavel é marcada por:', opcoes: ['O idealismo', 'O realismo e a análise do poder', 'A utopia', 'A defesa da democracia'], correta: 1, explicacao: 'Maquiavel é conhecido por seu realismo político, analisando o poder como ele é.' }
+        ],
+        'Sociologia': [
+          { pergunta: 'O que é a Sociologia?', opcoes: ['Estudo do clima', 'Estudo das sociedades humanas', 'Estudo do direito', 'Estudo da mente'], correta: 1, explicacao: 'A Sociologia é a ciência que estuda a sociedade, suas estruturas e relações.' },
+          { pergunta: 'Qual é o conceito de "mais-valia" para Karl Marx?', opcoes: ['Valor agregado pelo trabalho', 'Lucro do capitalista sobre o trabalho', 'Imposto sobre a produção', 'Custo da matéria-prima'], correta: 1, explicacao: 'Para Marx, a mais-valia é a diferença entre o valor produzido e o salário, apropriada pelo capitalista.' },
+          { pergunta: 'O que é a estratificação social?', opcoes: ['Divisão da sociedade em camadas', 'Igualdade social', 'Mobilidade social', 'Anarquia'], correta: 0, explicacao: 'Estratificação social é a divisão da sociedade em camadas ou classes sociais.' },
+          { pergunta: 'Quem é considerado o pai da Sociologia?', opcoes: ['Auguste Comte', 'Karl Marx', 'Émile Durkheim', 'Max Weber'], correta: 0, explicacao: 'Auguste Comte é considerado o pai da Sociologia, por cunhar o termo e estabelecer seus fundamentos.' },
+          { pergunta: 'O que é a anomia para Durkheim?', opcoes: ['Falta de normas sociais', 'Solidariedade mecânica', 'Coesão social', 'Divisão do trabalho'], correta: 0, explicacao: 'Anomia é a ausência ou enfraquecimento das normas sociais, gerando desorientação.' },
+          { pergunta: 'O que é a luta de classes para Marx?', opcoes: ['Conflito entre proletariado e burguesia', 'Harmonia entre classes', 'Cooperação social', 'Igualdade de oportunidades'], correta: 0, explicacao: 'Marx via a história como uma luta de classes entre os que possuem os meios de produção e os que não possuem.' },
+          { pergunta: 'O que é o capitalismo?', opcoes: ['Sistema econômico baseado na propriedade privada e lucro', 'Sistema socialista', 'Sistema feudal', 'Sistema escravagista'], correta: 0, explicacao: 'O capitalismo é um sistema econômico com base na propriedade privada, livre mercado e busca pelo lucro.' },
+          { pergunta: 'O que é a globalização para a Sociologia?', opcoes: ['Processo de integração mundial', 'Fragmentação cultural', 'Isolamento político', 'Regionalização'], correta: 0, explicacao: 'Sociologicamente, a globalização é a intensificação das relações sociais em escala mundial.' },
+          { pergunta: 'O que é a ideologia?', opcoes: ['Conjunto de ideias e crenças', 'Sistema econômico', 'Estrutura política', 'Religião'], correta: 0, explicacao: 'Ideologia é um conjunto de ideias, valores e crenças que orientam grupos sociais.' },
+          { pergunta: 'O que é a ação social para Max Weber?', opcoes: ['Ação dotada de sentido subjetivo', 'Ação instintiva', 'Ação mecânica', 'Ação religiosa'], correta: 0, explicacao: 'Weber define ação social como uma conduta humana com sentido subjetivo e orientada para outros.' }
         ]
       },
       natureza: {
@@ -494,9 +544,9 @@
     };
 
     // ---------- ESTADO ----------
-    let currentArea = 'linguagens';       // área selecionada
-    let currentSub = 'Língua Portuguesa'; // subdisciplina selecionada
-    let questions = [];                 // array de perguntas da sub atual
+    let currentArea = 'linguagens';
+    let currentSub = 'Língua Portuguesa';
+    let questions = [];
     let currentIndex = 0;
     let answered = false;
     let selectedOption = null;
@@ -603,7 +653,6 @@
           selectedOption = idx;
         });
       });
-      // limpa seleção
       const radios = document.querySelectorAll('input[name="questionOption"]');
       radios.forEach(r => r.checked = false);
       selectedOption = null;
@@ -628,7 +677,6 @@
         btn.classList.remove('active');
         if (btn.dataset.area === currentArea) btn.classList.add('active');
       });
-      // atualiza sub-buttons
       const subBtns = subGrid.querySelectorAll('.sub-btn');
       subBtns.forEach(btn => {
         btn.classList.remove('active-sub');
@@ -730,7 +778,6 @@
     resetBtn.addEventListener('click', resetQuiz);
 
     // ---------- INICIALIZA ----------
-    // inicia com Linguagens / Língua Portuguesa
     currentArea = 'linguagens';
     currentSub = 'Língua Portuguesa';
     renderSubButtons(currentArea);
