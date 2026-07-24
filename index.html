@@ -1,1036 +1,800 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IME QUIZ · Enem</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ENEM - Supabase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: linear-gradient(145deg, #e3f2fd 0%, #b3d9f0 100%);
-      min-height: 100vh;
-      padding: 2rem 1.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .app {
-      max-width: 1100px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 48px 48px 40px 40px;
-      box-shadow: 0 25px 50px rgba(0, 60, 100, 0.20);
-      padding: 2.5rem 2.8rem;
-      border: 1px solid rgba(180, 215, 240, 0.4);
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
 
-    .brand {
-      text-align: center;
-      margin-bottom: 1.8rem;
-    }
-    .brand h1 {
-      font-size: 3.4rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #0b4b6b 0%, #2a7fa0 80%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-      padding: 0 0.5rem;
-      border-bottom: 4px solid #a0d0e9;
-      line-height: 1.2;
-      letter-spacing: -0.5px;
-    }
-    .brand h1 small {
-      font-size: 1.2rem;
-      font-weight: 300;
-      -webkit-text-fill-color: #3b7a9a;
-      margin-left: 10px;
-      letter-spacing: 2px;
-    }
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
 
-    .nav-area {
-      margin-bottom: 2rem;
-    }
-    .discipline-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-    }
-    .discipline-btn {
-      background: #f0f9ff;
-      border: 2px solid #c5e0f0;
-      border-radius: 60px;
-      padding: 0.8rem 0.3rem;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #063f58;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-      position: relative;
-      overflow: hidden;
-    }
-    .discipline-btn::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 3px;
-      background: #2a7fa0;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-    .discipline-btn:hover::after {
-      width: 60%;
-    }
-    .discipline-btn:hover {
-      background: #dcecf7;
-      border-color: #6faecf;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 16px rgba(30, 130, 180, 0.15);
-    }
-    .discipline-btn.active {
-      background: #c7e5f5;
-      border-color: #3f8fb5;
-      box-shadow: 0 6px 18px rgba(30, 130, 180, 0.25);
-      transform: translateY(-3px);
-    }
-    .discipline-btn.active::after {
-      width: 70%;
-    }
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
 
-    .sub-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem 1rem;
-      background: #f5fafe;
-      padding: 0.8rem 1.6rem;
-      border-radius: 60px;
-      border: 1px solid #d6eaf5;
-      margin-top: 0.3rem;
-      min-height: 3.6rem;
-      align-items: center;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
-    }
-    .sub-grid-label {
-      font-weight: 600;
-      color: #1a5e7a;
-      margin-right: 0.5rem;
-      font-size: 0.95rem;
-    }
-    .sub-btn {
-      background: transparent;
-      border: 2px solid transparent;
-      border-radius: 40px;
-      padding: 0.4rem 1.6rem;
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: #144f6b;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .sub-btn:hover {
-      background: #e0eff9;
-      border-color: #95c2db;
-      transform: scale(1.04);
-    }
-    .sub-btn.active-sub {
-      background: #c7e5f5;
-      border-color: #3f8fb5;
-      font-weight: 600;
-      color: #043e55;
-      box-shadow: 0 2px 10px rgba(30, 130, 180, 0.15);
-      transform: scale(1.04);
-    }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+        }
 
-    .question-card {
-      background: #fafffe;
-      border-radius: 36px;
-      padding: 2.2rem 2.6rem;
-      margin-bottom: 1.8rem;
-      border: 1px solid #d6eaf5;
-      box-shadow: 0 8px 24px rgba(30, 100, 140, 0.08);
-      transition: box-shadow 0.3s ease;
-    }
-    .question-text {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #0b4058;
-      line-height: 1.5;
-      margin-bottom: 1.8rem;
-      padding-bottom: 0.8rem;
-      border-bottom: 2px dashed #b8d8ec;
-    }
+        .stat-item {
+            text-align: center;
+        }
 
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-    .option-item {
-      background: #f5fbfe;
-      border-radius: 40px;
-      border: 2px solid #d2e6f2;
-      padding: 1rem 1.8rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      position: relative;
-    }
-    .option-item:hover:not(.disabled) {
-      background: #e9f4fc;
-      border-color: #8ac0db;
-      transform: translateX(6px);
-      box-shadow: 0 4px 12px rgba(30, 130, 180, 0.10);
-    }
-    .option-item.disabled {
-      cursor: default;
-      opacity: 0.9;
-    }
-    .option-item input[type="radio"] {
-      width: 1.2rem;
-      height: 1.2rem;
-      accent-color: #1585b3;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: all 0.2s ease;
-    }
-    .option-item.disabled input[type="radio"] {
-      cursor: default;
-    }
-    .option-item label {
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #144f6b;
-      cursor: pointer;
-      flex: 1;
-    }
-    .option-item.disabled label {
-      cursor: default;
-    }
+        .stat-item .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
 
-    .option-item.correct {
-      background: #d4edda;
-      border-color: #28a745;
-      box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.25);
-      transform: scale(1.02);
-      transition: all 0.3s ease;
-    }
-    .option-item.wrong {
-      background: #f8d7da;
-      border-color: #dc3545;
-      box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.25);
-      transition: all 0.3s ease;
-    }
-    .option-item.show-correct {
-      background: #d4edda;
-      border-color: #28a745;
-      box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.25);
-      transform: scale(1.02);
-      transition: all 0.3s ease;
-    }
+        .stat-item .label {
+            color: #718096;
+            font-size: 0.9em;
+        }
 
-    .action-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.8rem;
-      margin-top: 0.6rem;
-    }
-    .btn-group {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      background: #c7e5f5;
-      border: none;
-      border-radius: 60px;
-      padding: 0.8rem 2.4rem;
-      font-weight: 600;
-      font-size: 1rem;
-      color: #063f58;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      border: 1px solid #a2cde3;
-      box-shadow: 0 4px 10px rgba(0, 70, 120, 0.06);
-    }
-    .btn-primary:hover {
-      background: #b3daf0;
-      border-color: #66aaca;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(30, 130, 180, 0.20);
-    }
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-    .btn-check {
-      background: #0b6f94;
-      border: none;
-      padding: 0.8rem 2.6rem;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 1rem;
-      color: white;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 6px 18px rgba(10, 90, 130, 0.25);
-      border: 1px solid #479bc0;
-    }
-    .btn-check:hover {
-      background: #0a6183;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 28px rgba(10, 90, 130, 0.35);
-    }
-    .btn-check:active {
-      transform: translateY(0);
-    }
-    .btn-check:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-      box-shadow: none;
-    }
-    .btn-reset {
-      background: transparent;
-      border: 2px solid #98c5dd;
-      padding: 0.7rem 1.8rem;
-      border-radius: 60px;
-      font-weight: 600;
-      color: #1a5d79;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-    .btn-reset:hover {
-      background: #e5f1f9;
-      border-color: #589fc0;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(30, 130, 180, 0.12);
-    }
-    .counter {
-      font-size: 0.95rem;
-      color: #2f7897;
-      font-weight: 500;
-      background: #eaf4fa;
-      padding: 0.4rem 1.4rem;
-      border-radius: 40px;
-      box-shadow: inset 0 1px 4px rgba(0,0,0,0.04);
-    }
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
 
-    .feedback-box {
-      margin-top: 1.8rem;
-      padding: 1.2rem 2rem;
-      border-radius: 60px;
-      background: #e6f2fa;
-      border-left: 8px solid #3f95bb;
-      font-size: 1.05rem;
-      font-weight: 500;
-      color: #04415a;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
-      transition: all 0.3s ease;
-    }
-    .feedback-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-    .feedback-badge {
-      font-weight: 700;
-      padding: 0.25rem 1.8rem;
-      border-radius: 40px;
-    }
-    .feedback-badge.acertou {
-      background: #b2e0c0;
-      color: #06653b;
-    }
-    .feedback-badge.errou {
-      background: #fad1d1;
-      color: #a12222;
-    }
-    .feedback-correct {
-      background: #d9ecf5;
-      padding: 0.15rem 1.4rem;
-      border-radius: 40px;
-      font-weight: 600;
-      color: #025074;
-    }
-    .feedback-explication {
-      background: #f2f9ff;
-      padding: 0.8rem 1.6rem;
-      border-radius: 30px;
-      font-weight: 400;
-      color: #013249;
-      border-left: 4px solid #5ba3c7;
-      margin-top: 0.2rem;
-      font-size: 0.98rem;
-      line-height: 1.6;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
+        .filters select, .filters button {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            flex: 1;
+            min-width: 150px;
+        }
 
-    @media (max-width: 650px) {
-      .app { padding: 1.8rem 1.2rem; }
-      .brand h1 { font-size: 2.4rem; }
-      .question-text { font-size: 1.25rem; }
-      .discipline-grid { grid-template-columns: repeat(2, 1fr); }
-      .sub-grid { flex-direction: column; align-items: stretch; gap: 0.3rem; padding: 0.8rem 1rem; }
-      .option-item { padding: 0.7rem 1rem; }
-      .feedback-box { padding: 1rem 1.2rem; }
-    }
-    @media (max-width: 420px) {
-      .brand h1 { font-size: 2rem; }
-      .action-bar { flex-direction: column; align-items: stretch; }
-      .btn-group { justify-content: center; }
-      .question-card { padding: 1.5rem 1rem; }
-    }
-  </style>
+        .filters button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex: 0.5;
+        }
+
+        .filters button:hover {
+            background: #5a67d8;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .question-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.9em;
+        }
+
+        .question-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .tag-materia { background: #4299e1; }
+        .tag-area { background: #48bb78; }
+        .tag-dificuldade { background: #ed8936; }
+
+        .question-text {
+            font-size: 1.1em;
+            color: #2d3748;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #ebf4ff;
+        }
+
+        .option.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .option.wrong {
+            border-color: #fc8181;
+            background: #fff5f5;
+        }
+
+        .option-letter {
+            font-weight: bold;
+            color: #4a5568;
+            min-width: 25px;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #ebf8ff;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation strong {
+            color: #2b6cb0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .controls button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination button:hover:not(.active) {
+            border-color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #718096;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
+
+        .error {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filters select, .filters button {
+                min-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="app" id="app">
+    <div class="container">
+        <h1>📚 Quiz ENEM</h1>
+        <p class="subtitle">Teste seus conhecimentos com perguntas do ENEM</p>
 
-  <div class="brand">
-    <h1>IME QUIZ <small>Enem</small></h1>
-  </div>
+        <div class="stats" id="stats">
+            <div class="stat-item">
+                <div class="number" id="totalQuestions">0</div>
+                <div class="label">Total de Perguntas</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="answeredQuestions">0</div>
+                <div class="label">Respondidas</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="correctAnswers">0</div>
+                <div class="label">Acertos</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="hitRate">0%</div>
+                <div class="label">Taxa de Acerto</div>
+            </div>
+        </div>
 
-  <div class="nav-area">
-    <div class="discipline-grid" id="disciplineGrid">
-      <button class="discipline-btn" data-area="linguagens">📖 Linguagens</button>
-      <button class="discipline-btn" data-area="humanas">🌍 Humanas</button>
-      <button class="discipline-btn" data-area="natureza">🔬 Natureza</button>
-      <button class="discipline-btn" data-area="matematica">📐 Matemática</button>
+        <div class="filters">
+            <select id="areaFilter">
+                <option value="">Todas as Áreas</option>
+                <option value="Linguagens, Códigos e suas Tecnologias">Linguagens</option>
+                <option value="Ciências Humanas e suas Tecnologias">Ciências Humanas</option>
+                <option value="Ciências da Natureza e suas Tecnologias">Ciências da Natureza</option>
+                <option value="Matemática e suas Tecnologias">Matemática</option>
+            </select>
+
+            <select id="materiaFilter">
+                <option value="">Todas as Matérias</option>
+            </select>
+
+            <select id="dificuldadeFilter">
+                <option value="">Todas as Dificuldades</option>
+                <option value="Fácil">Fácil</option>
+                <option value="Médio">Médio</option>
+                <option value="Difícil">Difícil</option>
+            </select>
+
+            <button onclick="loadQuestions()">🔍 Buscar</button>
+            <button onclick="resetQuiz()" class="btn-secondary">🔄 Reiniciar</button>
+        </div>
+
+        <div id="questionsContainer">
+            <div class="loading">Carregando perguntas</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="previousPage()" class="btn-secondary" id="prevBtn">⬅ Anterior</button>
+            <button onclick="nextPage()" class="btn-primary" id="nextBtn">Próxima ➡</button>
+        </div>
+
+        <div class="pagination" id="pagination"></div>
     </div>
-    <div class="sub-grid" id="subGrid">
-      <span class="sub-grid-label">📌 Matéria:</span>
-    </div>
-  </div>
 
-  <div class="question-card">
-    <div class="question-text" id="questionDisplay">Selecione uma área e matéria</div>
-    <div class="options-grid" id="optionsContainer"></div>
-  </div>
+    <script>
+        // ============================================
+        // CONFIGURAÇÃO DO SUPABASE
+        // ============================================
+        const SUPABASE_URL = 'https://yhphfgidtopoqzaoemtr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_YX1L7YhdyX5wwDWPFqfBZQ_oPfnBpGm';
 
-  <div class="action-bar">
-    <div class="btn-group">
-      <button class="btn-primary" id="nextBtn">⏩ Próxima</button>
-      <button class="btn-reset" id="resetBtn">↻ Reiniciar</button>
-    </div>
-    <span class="counter" id="counter">0 / 0</span>
-  </div>
+        // ============================================
+        // SQL PARA CRIAR A TABELA (executar no Supabase SQL Editor)
+        // ============================================
+        const SQL_CREATE_TABLE = `
+        -- Tabela principal de perguntas do quiz ENEM
+        CREATE TABLE IF NOT EXISTS perguntas_quiz (
+            id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+            materia VARCHAR(100) NOT NULL,
+            area_conhecimento VARCHAR(100) NOT NULL,
+            sub_tema VARCHAR(100),
+            pergunta TEXT NOT NULL,
+            opcao_a TEXT NOT NULL,
+            opcao_b TEXT NOT NULL,
+            opcao_c TEXT NOT NULL,
+            opcao_d TEXT NOT NULL,
+            opcao_e TEXT NOT NULL,
+            resposta_correta CHAR(1) NOT NULL CHECK (resposta_correta IN ('A', 'B', 'C', 'D', 'E')),
+            explicacao TEXT,
+            ano_enem INTEGER,
+            dificuldade VARCHAR(20) CHECK (dificuldade IN ('Fácil', 'Médio', 'Difícil')),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
 
-  <div class="feedback-box" id="feedbackBox">
-    <div class="feedback-row">
-      <span id="feedbackEmoji">💡</span>
-      <span id="feedbackMessage">Clique em uma alternativa para responder</span>
-    </div>
-    <div id="feedbackExplication" class="feedback-explication" style="display: none;"></div>
-  </div>
-</div>
+        -- Índices para melhorar performance das buscas
+        CREATE INDEX IF NOT EXISTS idx_perguntas_materia ON perguntas_quiz(materia);
+        CREATE INDEX IF NOT EXISTS idx_perguntas_area ON perguntas_quiz(area_conhecimento);
+        CREATE INDEX IF NOT EXISTS idx_perguntas_sub_tema ON perguntas_quiz(sub_tema);
+        CREATE INDEX IF NOT EXISTS idx_perguntas_dificuldade ON perguntas_quiz(dificuldade);
 
-<script>
-  (function() {
-    "use strict";
+        -- Trigger para atualizar o updated_at automaticamente
+        CREATE OR REPLACE FUNCTION update_updated_at_column()
+        RETURNS TRIGGER AS $$
+        BEGIN
+            NEW.updated_at = CURRENT_TIMESTAMP;
+            RETURN NEW;
+        END;
+        $$ language 'plpgsql';
 
-    // ========== BANCO DE QUESTÕES ==========
-    const bank = {
-      linguagens: {
-        'Língua Portuguesa': [
-          { pergunta: 'Qual é a função da linguagem predominante em uma placa de "PARE"?', opcoes: ['Fática', 'Conativa', 'Emotiva', 'Metalinguística'], correta: 1, explicacao: 'A função conativa (apelativa) tem o objetivo de influenciar o receptor, como em ordens e instruções.' },
-          { pergunta: 'Em "O vento sussurrava segredos", qual figura de linguagem está presente?', opcoes: ['Metáfora', 'Prosopopeia', 'Comparação', 'Eufemismo'], correta: 1, explicacao: 'Prosopopeia (personificação) atribui ações humanas a seres inanimados.' },
-          { pergunta: 'O que é uma crônica?', opcoes: ['Narrativa longa e fictícia', 'Texto teatral', 'Narrativa curta sobre o cotidiano', 'Poema épico'], correta: 2, explicacao: 'A crônica é um gênero textual curto que aborda o cotidiano com tom leve e reflexivo.' },
-          { pergunta: 'Qual é a diferença entre a fala e a escrita?', opcoes: ['A fala é mais informal e espontânea', 'A escrita é sempre mais correta', 'Não há diferenças', 'A fala usa mais advérbios'], correta: 0, explicacao: 'A fala é geralmente mais informal, espontânea e com marcas de oralidade, enquanto a escrita segue normas mais rígidas.' },
-          { pergunta: 'O que é um estrangeirismo?', opcoes: ['Palavra de origem estrangeira incorporada ao idioma', 'Palavra inventada', 'Gíria', 'Regionalismo'], correta: 0, explicacao: 'Estrangeirismo é o uso de palavras oriundas de outras línguas, como "mouse" e "show".' },
-          { pergunta: 'Qual é o gênero textual de uma receita culinária?', opcoes: ['Descritivo', 'Injuntivo', 'Narrativo', 'Argumentativo'], correta: 1, explicacao: 'A receita é um texto injuntivo, pois orienta o leitor a executar uma ação passo a passo.' },
-          { pergunta: 'O que são variações linguísticas?', opcoes: ['Diferentes formas de falar um mesmo idioma', 'Erros de português', 'Palavras estrangeiras', 'Dialetos regionais'], correta: 0, explicacao: 'Variações linguísticas são as diferentes formas de usar a língua, influenciadas por região, classe social, idade, etc.' },
-          { pergunta: 'Qual é a função da linguagem predominante em um poema lírico?', opcoes: ['Referencial', 'Emotiva', 'Conativa', 'Fática'], correta: 1, explicacao: 'A função emotiva (expressiva) está centrada no emissor, expressando emoções e sentimentos.' },
-          { pergunta: 'O que é coesão textual?', opcoes: ['Uso de conectivos para ligar ideias', 'Organização das ideias no texto', 'Uso de palavras bonitas', 'Correção gramatical'], correta: 0, explicacao: 'Coesão textual é o uso de elementos linguísticos (conectivos, pronomes) que garantem a ligação entre as partes do texto.' },
-          { pergunta: 'Qual é a diferença entre denotação e conotação?', opcoes: ['Denotação é o sentido literal; conotação é o sentido figurado', 'Denotação é formal; conotação é informal', 'Não há diferença', 'Denotação é subjetiva'], correta: 0, explicacao: 'Denotação é o sentido objetivo e literal da palavra; conotação é o sentido figurado, subjetivo.' },
-          { pergunta: 'O que é um texto argumentativo?', opcoes: ['Texto que defende uma tese', 'Texto que conta uma história', 'Texto que descreve um objeto', 'Texto que dá instruções'], correta: 0, explicacao: 'O texto argumentativo tem como objetivo defender um ponto de vista, apresentando argumentos e evidências.' },
-          { pergunta: 'Qual é a importância da leitura crítica?', opcoes: ['Entender o texto superficialmente', 'Interpretar e analisar o texto com profundidade', 'Decorar o texto', 'Ler rapidamente'], correta: 1, explicacao: 'A leitura crítica envolve analisar, interpretar e questionar o texto, indo além da compreensão superficial.' },
-          { pergunta: 'O que é um período composto?', opcoes: ['Frase com mais de uma oração', 'Frase com uma oração', 'Frase sem verbo', 'Frase interrogativa'], correta: 0, explicacao: 'Período composto é aquele que possui duas ou mais orações, podendo ser por coordenação ou subordinação.' },
-          { pergunta: 'Qual é a função da pontuação?', opcoes: ['Organizar o texto e indicar pausas', 'Enfeitar o texto', 'Substituir palavras', 'Indicar emoções'], correta: 0, explicacao: 'A pontuação organiza o texto, indica pausas, entonação e ajuda na compreensão da mensagem.' },
-          { pergunta: 'O que é um neologismo?', opcoes: ['Palavra nova criada em uma língua', 'Palavra antiga', 'Gíria', 'Regionalismo'], correta: 0, explicacao: 'Neologismo é a criação de uma nova palavra ou a atribuição de um novo sentido a uma palavra existente.' },
-          { pergunta: 'Qual é a diferença entre homônimos e parônimos?', opcoes: ['Homônimos têm mesma grafia; parônimos têm sons parecidos', 'Homônimos têm sons parecidos; parônimos têm mesma grafia', 'Não há diferença', 'Homônimos são antônimos'], correta: 0, explicacao: 'Homônimos são palavras com mesma grafia ou som (ex: "manga"), parônimos têm sons parecidos (ex: "emergir/imergir").' },
-          { pergunta: 'O que é um texto dissertativo?', opcoes: ['Texto que expõe ideias sobre um tema', 'Texto que conta uma história', 'Texto que descreve algo', 'Texto que dá instruções'], correta: 0, explicacao: 'O texto dissertativo expõe ideias, reflexões e argumentos sobre um determinado tema.' },
-          { pergunta: 'Qual é a função do artigo na língua portuguesa?', opcoes: ['Determinar o substantivo', 'Substituir o substantivo', 'Modificar o adjetivo', 'Indicar ação'], correta: 0, explicacao: 'O artigo determina o substantivo, indicando gênero, número e se é definido ou indefinido.' },
-          { pergunta: 'O que é uma oração subordinada?', opcoes: ['Oração que depende de outra para ter sentido', 'Oração independente', 'Oração sem verbo', 'Oração interrogativa'], correta: 0, explicacao: 'A oração subordinada é aquela que exerce função sintática em relação a uma oração principal.' },
-          { pergunta: 'Qual é a importância da norma culta?', opcoes: ['Padronizar a língua para situações formais', 'Substituir a língua falada', 'Criar novas palavras', 'Nenhuma importância'], correta: 0, explicacao: 'A norma culta é importante para a comunicação em contextos formais, como textos acadêmicos e profissionais.' }
-        ],
-        'Literatura': [
-          { pergunta: 'Quem escreveu "Dom Casmurro"?', opcoes: ['Machado de Assis', 'José de Alencar', 'Carlos Drummond', 'Clarice Lispector'], correta: 0, explicacao: '"Dom Casmurro" é uma obra de Machado de Assis, publicada em 1899.' },
-          { pergunta: 'O Romantismo brasileiro teve como marco inicial qual obra?', opcoes: ['"Iracema"', '"Suspiros Poéticos"', '"O Guarani"', '"Os Lusíadas"'], correta: 1, explicacao: '"Suspiros Poéticos e Saudades", de Gonçalves de Magalhães, é considerado o marco do Romantismo no Brasil.' },
-          { pergunta: 'Qual poeta é conhecido como "Poeta dos Escravos"?', opcoes: ['Castro Alves', 'Gonçalves Dias', 'Álvares de Azevedo', 'Casimiro de Abreu'], correta: 0, explicacao: 'Castro Alves é chamado de "Poeta dos Escravos" por sua luta contra a escravidão em poemas como "Navio Negreiro".' },
-          { pergunta: 'O Modernismo brasileiro começou com a Semana de Arte Moderna em qual ano?', opcoes: ['1922', '1930', '1945', '1910'], correta: 0, explicacao: 'A Semana de Arte Moderna de 1922 foi o marco inicial do Modernismo no Brasil.' },
-          { pergunta: 'Qual obra pertence ao Barroco brasileiro?', opcoes: ['"O Guarani"', '"Prosopopeia"', '"Carta de Pero Vaz"', '"Os Lusíadas"'], correta: 1, explicacao: '"Prosopopeia", de Bento Teixeira, é uma obra do Barroco no Brasil.' },
-          { pergunta: 'O movimento literário que valorizava o "eu" e a subjetividade é o:', opcoes: ['Realismo', 'Romantismo', 'Parnasianismo', 'Simbolismo'], correta: 1, explicacao: 'O Romantismo valorizava o "eu", a subjetividade e os sentimentos, em oposição ao racionalismo.' },
-          { pergunta: 'Quem escreveu "Morte e Vida Severina"?', opcoes: ['João Cabral de Melo Neto', 'Carlos Drummond', 'Manuel Bandeira', 'Cecília Meireles'], correta: 0, explicacao: '"Morte e Vida Severina" é um poema de João Cabral de Melo Neto, sobre a vida no Nordeste.' },
-          { pergunta: 'A obra "Vidas Secas" é de qual autor?', opcoes: ['Graciliano Ramos', 'José Lins do Rego', 'Euclides da Cunha', 'Guimarães Rosa'], correta: 0, explicacao: '"Vidas Secas" é um romance de Graciliano Ramos, que retrata a vida no sertão nordestino.' },
-          { pergunta: 'O que caracteriza a poesia concreta?', opcoes: ['Métrica fixa', 'Exploração visual das palavras', 'Sentimentalismo', 'Narrativa longa'], correta: 1, explicacao: 'A poesia concreta explora a disposição visual das palavras no espaço, rompendo com a métrica tradicional.' },
-          { pergunta: 'O Parnasianismo é marcado pelo:', opcoes: ['Subjetivismo', 'Objetivismo e descrições', 'Versos livres', 'Nacionalismo'], correta: 1, explicacao: 'O Parnasianismo valorizava a objetividade, a descrição e a forma perfeita, com métrica e rima rigorosas.' },
-          { pergunta: 'Quem é o autor de "O Cortiço"?', opcoes: ['Aluísio Azevedo', 'José de Alencar', 'Machado de Assis', 'Euclides da Cunha'], correta: 0, explicacao: '"O Cortiço" é um romance naturalista de Aluísio Azevedo, que retrata a vida em um cortiço carioca.' },
-          { pergunta: 'O que é o Modernismo?', opcoes: ['Movimento que rompeu com o academismo', 'Movimento que valorizou o clássico', 'Movimento religioso', 'Movimento político'], correta: 0, explicacao: 'O Modernismo foi um movimento que rompeu com o academismo e buscou novas formas de expressão artística.' },
-          { pergunta: 'Quem escreveu "Grande Sertão: Veredas"?', opcoes: ['Guimarães Rosa', 'Graciliano Ramos', 'José Lins do Rego', 'Érico Veríssimo'], correta: 0, explicacao: '"Grande Sertão: Veredas" é a obra-prima de Guimarães Rosa, que retrata o sertão mineiro.' },
-          { pergunta: 'O que é o Realismo na literatura?', opcoes: ['Representação objetiva da realidade', 'Representação subjetiva da realidade', 'Foco em sentimentos', 'Foco em aventuras'], correta: 0, explicacao: 'O Realismo busca representar a realidade de forma objetiva, com crítica social e análise psicológica.' },
-          { pergunta: 'Qual é a característica principal do Simbolismo?', opcoes: ['Subjetividade e musicalidade', 'Objetividade e descrição', 'Crítica social', 'Nacionalismo'], correta: 0, explicacao: 'O Simbolismo valoriza a subjetividade, a musicalidade e as sugestões, em oposição ao objetivismo.' },
-          { pergunta: 'Quem é o autor de "Iracema"?', opcoes: ['José de Alencar', 'Gonçalves Dias', 'Aluísio Azevedo', 'Machado de Assis'], correta: 0, explicacao: '"Iracema" é um romance de José de Alencar, que retrata a lenda da virgem dos lábios de mel.' },
-          { pergunta: 'O que é o Arcadismo?', opcoes: ['Movimento que valorizava a natureza e a simplicidade', 'Movimento que valorizava a cidade e o progresso', 'Movimento religioso', 'Movimento político'], correta: 0, explicacao: 'O Arcadismo exaltava a natureza, a simplicidade e a vida no campo, com inspiração na cultura clássica.' },
-          { pergunta: 'Quem é o autor de "A Moreninha"?', opcoes: ['Joaquim Manuel de Macedo', 'José de Alencar', 'Machado de Assis', 'Gonçalves Dias'], correta: 0, explicacao: '"A Moreninha" é o romance de Joaquim Manuel de Macedo, que marcou o início do Romantismo no Brasil.' },
-          { pergunta: 'O que é a literatura de cordel?', opcoes: ['Poemas populares do Nordeste', 'Poemas eruditos', 'Romances de cavalaria', 'Literatura infantil'], correta: 0, explicacao: 'A literatura de cordel é uma manifestação popular do Nordeste, com poemas rimados e ilustrados em xilogravura.' },
-          { pergunta: 'Quem é o autor de "O Quinze"?', opcoes: ['Rachel de Queiroz', 'Graciliano Ramos', 'José Lins do Rego', 'Jorge Amado'], correta: 0, explicacao: '"O Quinze" é o romance de estreia de Rachel de Queiroz, que retrata a seca de 1915 no Ceará.' }
-        ],
-        'Artes': [
-          { pergunta: 'O que é a arte renascentista?', opcoes: ['Arte com ênfase no divino', 'Arte que valoriza a razão e a ciência', 'Arte abstrata', 'Arte barroca'], correta: 1, explicacao: 'O Renascimento valorizava a razão, a ciência e a perspectiva, com inspiração na cultura clássica greco-romana.' },
-          { pergunta: 'Qual movimento artístico é conhecido por cores vibrantes e formas distorcidas?', opcoes: ['Expressionismo', 'Impressionismo', 'Cubismo', 'Surrealismo'], correta: 0, explicacao: 'O Expressionismo usa cores intensas e formas distorcidas para expressar emoções, como em "O Grito", de Munch.' },
-          { pergunta: 'O que é a arte contemporânea?', opcoes: ['Arte produzida no século XX e XXI', 'Arte clássica grega', 'Arte medieval', 'Arte renascentista'], correta: 0, explicacao: 'A arte contemporânea abrange as produções artísticas do século XX até os dias atuais, com diversas linguagens.' },
-          { pergunta: 'Qual obra é de Tarsila do Amaral?', opcoes: ['Abaporu', 'O Grito', 'A Persistência da Memória', 'Guernica'], correta: 0, explicacao: '"Abaporu" é uma obra icônica da pintora modernista Tarsila do Amaral, que retrata um ser humano com pés enormes.' },
-          { pergunta: 'O que é a escultura grega clássica?', opcoes: ['Representação de deuses em poses naturais', 'Estátuas abstratas', 'Arte rupestre', 'Arte gótica'], correta: 0, explicacao: 'A escultura grega clássica buscava a representação idealizada e naturalista do corpo humano.' },
-          { pergunta: 'Qual técnica de pintura utiliza pigmentos misturados com ovo?', opcoes: ['Têmpera', 'Óleo', 'Aquarela', 'Acrílica'], correta: 0, explicacao: 'A têmpera é uma técnica antiga que usa gema de ovo como aglutinante dos pigmentos.' },
-          { pergunta: 'O que é a arte abstrata?', opcoes: ['Arte que não representa a realidade de forma figurativa', 'Arte que imita a natureza', 'Arte com temas religiosos', 'Arte de retratos'], correta: 0, explicacao: 'A arte abstrata afasta-se da representação figurativa para explorar formas, cores e composições.' },
-          { pergunta: 'Qual é o principal material usado na arte do grafite?', opcoes: ['Tinta spray', 'Lápis', 'Pincel', 'Carvão'], correta: 0, explicacao: 'O grafite é uma expressão artística urbana que usa principalmente tinta spray.' },
-          { pergunta: 'O que é o cubismo?', opcoes: ['Movimento que fragmenta as formas', 'Arte que valoriza a luz', 'Arte com temas históricos', 'Arte minimalista'], correta: 0, explicacao: 'O cubismo, com Picasso e Braque, fragmenta as formas em planos geométricos, representando múltiplas perspectivas.' },
-          { pergunta: 'Qual é a função da arte na sociedade?', opcoes: ['Apenas entretenimento', 'Expressão cultural e crítica social', 'Decoração', 'Registro histórico'], correta: 1, explicacao: 'A arte tem função social, cultural e crítica, além de expressar emoções e ideias.' },
-          { pergunta: 'O que é o Impressionismo?', opcoes: ['Arte que captura a luz e o momento', 'Arte que expressa emoções', 'Arte que fragmenta formas', 'Arte abstrata'], correta: 0, explicacao: 'O Impressionismo busca capturar a luz e os momentos fugazes, com pinceladas soltas e cores vibrantes.' },
-          { pergunta: 'Quem pintou a "Mona Lisa"?', opcoes: ['Leonardo da Vinci', 'Michelangelo', 'Rafael', 'Van Gogh'], correta: 0, explicacao: 'A "Mona Lisa" é a obra mais famosa de Leonardo da Vinci, pintada no Renascimento.' },
-          { pergunta: 'O que é o Surrealismo?', opcoes: ['Arte que explora o inconsciente e os sonhos', 'Arte que representa a realidade', 'Arte que fragmenta formas', 'Arte abstrata'], correta: 0, explicacao: 'O Surrealismo explora o inconsciente, os sonhos e o imaginário, como nas obras de Salvador Dalí.' },
-          { pergunta: 'Qual é a importância do Barroco na arte?', opcoes: ['Ênfase no drama e no contraste', 'Ênfase na simplicidade', 'Ênfase na razão', 'Ênfase na abstração'], correta: 0, explicacao: 'O Barroco é caracterizado pelo drama, pelo contraste entre luz e sombra (claroscuro) e pela complexidade.' },
-          { pergunta: 'O que é a arte moderna?', opcoes: ['Movimento que rompeu com o academismo', 'Arte grega', 'Arte medieval', 'Arte renascentista'], correta: 0, explicacao: 'A arte moderna rompeu com o academismo e buscou novas formas de expressão, valorizando a inovação.' },
-          { pergunta: 'Quem pintou "A Noite Estrelada"?', opcoes: ['Van Gogh', 'Monet', 'Picasso', 'Dalí'], correta: 0, explicacao: '"A Noite Estrelada" é uma obra de Van Gogh, que expressa sua visão única do céu noturno.' },
-          { pergunta: 'O que é a arte da performance?', opcoes: ['Arte que usa o corpo como suporte', 'Arte que usa telas', 'Arte que usa música', 'Arte que usa tecnologia'], correta: 0, explicacao: 'A arte da performance utiliza o corpo do artista como meio de expressão, em ações ao vivo.' },
-          { pergunta: 'Qual é a importância da fotografia na arte?', opcoes: ['Registro e expressão artística', 'Apenas registro documental', 'Substitui a pintura', 'Não tem importância'], correta: 0, explicacao: 'A fotografia é tanto um registro documental quanto uma forma de expressão artística.' },
-          { pergunta: 'O que é a arte digital?', opcoes: ['Arte produzida com tecnologia digital', 'Arte tradicional', 'Arte renascentista', 'Arte barroca'], correta: 0, explicacao: 'A arte digital é produzida com o uso de tecnologias digitais, como computadores e softwares.' },
-          { pergunta: 'Qual é a contribuição da arte indígena para a cultura brasileira?', opcoes: ['Riqueza de símbolos e técnicas', 'Nenhuma contribuição', 'Arte europeia', 'Arte africana'], correta: 0, explicacao: 'A arte indígena contribui com uma rica simbologia, técnicas e materiais, sendo fundamental para a identidade cultural brasileira.' }
-        ],
-        'Educação Física': [
-          { pergunta: 'Qual é a origem do futebol moderno?', opcoes: ['Inglaterra', 'Brasil', 'Alemanha', 'Itália'], correta: 0, explicacao: 'O futebol moderno tem origem na Inglaterra, com as primeiras regras estabelecidas em 1863.' },
-          { pergunta: 'O que é a capoeira?', opcoes: ['Uma dança folclórica', 'Uma luta com elementos de dança e música', 'Um esporte olímpico', 'Um jogo de tabuleiro'], correta: 1, explicacao: 'A capoeira é uma expressão cultural afro-brasileira que combina luta, dança e música.' },
-          { pergunta: 'Qual o objetivo do alongamento?', opcoes: ['Aumentar a força', 'Melhorar a flexibilidade', 'Ganhar massa muscular', 'Perder peso'], correta: 1, explicacao: 'O alongamento visa melhorar a flexibilidade e prevenir lesões.' },
-          { pergunta: 'O que é o voleibol?', opcoes: ['Esporte com raquete', 'Esporte com bola jogado com as mãos', 'Esporte com gol', 'Esporte de combate'], correta: 1, explicacao: 'O voleibol é um esporte em que se usa as mãos para passar a bola por cima da rede.' },
-          { pergunta: 'Qual é a importância da atividade física?', opcoes: ['Apenas para estética', 'Saúde física e mental', 'Apenas para competição', 'Não tem importância'], correta: 1, explicacao: 'A atividade física é fundamental para a saúde física, mental e o bem-estar geral.' },
-          { pergunta: 'O que é o basquetebol?', opcoes: ['Jogo com a mão e cesta', 'Jogo com os pés', 'Jogo de raquete', 'Jogo de combate'], correta: 0, explicacao: 'O basquetebol é um esporte onde os jogadores tentam acertar a cesta com a mão.' },
-          { pergunta: 'Qual é a função do aquecimento antes do exercício?', opcoes: ['Preparar o corpo para o esforço', 'Ganhar massa muscular', 'Melhorar a coordenação', 'Aumentar a flexibilidade'], correta: 0, explicacao: 'O aquecimento prepara o corpo para o esforço, aumentando a temperatura e a circulação.' },
-          { pergunta: 'O que é a natação?', opcoes: ['Esporte aquático', 'Esporte de corrida', 'Esporte de combate', 'Esporte de equipe'], correta: 0, explicacao: 'A natação é um esporte praticado na água, com diferentes estilos.' },
-          { pergunta: 'Qual é o esporte mais popular do mundo?', opcoes: ['Futebol', 'Basquetebol', 'Voleibol', 'Tênis'], correta: 0, explicacao: 'O futebol é considerado o esporte mais popular do mundo, com bilhões de fãs.' },
-          { pergunta: 'O que é a ginástica?', opcoes: ['Atividade que trabalha flexibilidade e força', 'Esporte com bola', 'Esporte de combate', 'Jogo de estratégia'], correta: 0, explicacao: 'A ginástica é uma atividade que desenvolve a flexibilidade, a força e a coordenação.' },
-          { pergunta: 'O que é o judô?', opcoes: ['Arte marcial de origem japonesa', 'Esporte com bola', 'Dança', 'Luta greco-romana'], correta: 0, explicacao: 'O judô é uma arte marcial de origem japonesa, que usa projeções e imobilizações.' },
-          { pergunta: 'Qual é a importância da hidratação durante a atividade física?', opcoes: ['Manter o equilíbrio hídrico', 'Ganhar energia', 'Perder peso', 'Não é importante'], correta: 0, explicacao: 'A hidratação é fundamental para manter o equilíbrio hídrico e o desempenho durante a atividade física.' },
-          { pergunta: 'O que é a recreação?', opcoes: ['Atividade de lazer e entretenimento', 'Atividade competitiva', 'Atividade de trabalho', 'Atividade religiosa'], correta: 0, explicacao: 'A recreação é uma atividade de lazer e entretenimento, que proporciona bem-estar.' },
-          { pergunta: 'O que é o handebol?', opcoes: ['Esporte com bola jogado com as mãos', 'Esporte com raquete', 'Esporte com gol', 'Esporte de combate'], correta: 0, explicacao: 'O handebol é um esporte coletivo em que os jogadores usam as mãos para arremessar a bola ao gol.' },
-          { pergunta: 'Qual é a importância do trabalho em equipe nos esportes?', opcoes: ['Melhorar o desempenho coletivo', 'Apenas para competição', 'Não é importante', 'Para ganhar prêmios'], correta: 0, explicacao: 'O trabalho em equipe é fundamental para o desempenho coletivo e o sucesso nos esportes.' },
-          { pergunta: 'O que é a corrida de resistência?', opcoes: ['Corrida de longa distância', 'Corrida de curta distância', 'Corrida com obstáculos', 'Corrida em equipe'], correta: 0, explicacao: 'A corrida de resistência é uma prova de longa distância, como a maratona.' },
-          { pergunta: 'Qual é a importância do descanso na atividade física?', opcoes: ['Permite a recuperação muscular', 'Não é importante', 'Apenas para evitar lesões', 'Para perder peso'], correta: 0, explicacao: 'O descanso é essencial para a recuperação muscular e para evitar lesões.' },
-          { pergunta: 'O que é o treinamento funcional?', opcoes: ['Treino que simula movimentos do dia a dia', 'Treino com máquinas', 'Treino de força', 'Treino aeróbico'], correta: 0, explicacao: 'O treinamento funcional utiliza movimentos que simulam as atividades diárias, melhorando a funcionalidade.' },
-          { pergunta: 'O que é a musculação?', opcoes: ['Treino com pesos para ganho de força e massa', 'Treino de flexibilidade', 'Treino de coordenação', 'Treino aeróbico'], correta: 0, explicacao: 'A musculação é um treino com pesos que visa o ganho de força e massa muscular.' },
-          { pergunta: 'Qual é a importância da postura na atividade física?', opcoes: ['Prevenir lesões e melhorar o desempenho', 'Apenas para estética', 'Não é importante', 'Para ganhar força'], correta: 0, explicacao: 'A postura correta é fundamental para prevenir lesões e melhorar o desempenho na atividade física.' }
-        ],
-        'Inglês': [
-          { pergunta: 'Qual é a tradução de "I love you"?', opcoes: ['Eu odeio você', 'Eu amo você', 'Eu gosto de você', 'Eu quero você'], correta: 1, explicacao: '"I love you" significa "Eu amo você" em inglês.' },
-          { pergunta: 'O que significa "School"?', opcoes: ['Casa', 'Escola', 'Trabalho', 'Hospital'], correta: 1, explicacao: '"School" significa "escola" em português.' },
-          { pergunta: 'Qual é a forma correta do verbo "to be" para "He"?', opcoes: ['Is', 'Are', 'Am', 'Be'], correta: 0, explicacao: '"He is" é a forma correta do verbo "to be" para a terceira pessoa do singular.' },
-          { pergunta: 'O que é um "false friend"?', opcoes: ['Um amigo falso', 'Uma palavra que parece ter significado diferente', 'Um amigo verdadeiro', 'Uma palavra inglesa'], correta: 1, explicacao: 'Falsos cognatos (false friends) são palavras que parecem ter o mesmo significado, mas não têm.' },
-          { pergunta: 'Qual é o passado do verbo "go"?', opcoes: ['Went', 'Goed', 'Gone', 'Going'], correta: 0, explicacao: 'O passado de "go" é "went".' },
-          { pergunta: 'O que significa "Book"?', opcoes: ['Livro', 'Caderno', 'Revista', 'Jornal'], correta: 0, explicacao: '"Book" significa "livro".' },
-          { pergunta: 'Qual é a saudação em inglês para "Bom dia"?', opcoes: ['Good morning', 'Good afternoon', 'Good evening', 'Good night'], correta: 0, explicacao: '"Good morning" é a saudação para "Bom dia".' },
-          { pergunta: 'O que é o "Simple Present"?', opcoes: ['Tempo presente', 'Tempo passado', 'Tempo futuro', 'Tempo verbal'], correta: 0, explicacao: 'O "Simple Present" é o tempo verbal que expressa ações presentes ou rotineiras.' },
-          { pergunta: 'Qual é a tradução de "Happy"?', opcoes: ['Triste', 'Feliz', 'Bravo', 'Cansado'], correta: 1, explicacao: '"Happy" significa "feliz".' },
-          { pergunta: 'O que significa "Water"?', opcoes: ['Fogo', 'Ar', 'Água', 'Terra'], correta: 2, explicacao: '"Water" significa "água".' },
-          { pergunta: 'Qual é o plural de "Child"?', opcoes: ['Children', 'Childs', 'Childrens', 'Childes'], correta: 0, explicacao: 'O plural de "child" é "children".' },
-          { pergunta: 'O que significa "Friend"?', opcoes: ['Amigo', 'Inimigo', 'Conhecido', 'Parente'], correta: 0, explicacao: '"Friend" significa "amigo".' },
-          { pergunta: 'Qual é a forma correta do verbo "to have" para "She"?', opcoes: ['Has', 'Have', 'Haves', 'Had'], correta: 0, explicacao: '"She has" é a forma correta do verbo "to have" para a terceira pessoa do singular.' },
-          { pergunta: 'O que é um "adverb" em inglês?', opcoes: ['Palavra que modifica um verbo', 'Palavra que modifica um substantivo', 'Palavra que substitui um substantivo', 'Palavra que liga frases'], correta: 0, explicacao: 'Advérbios (adverbs) são palavras que modificam verbos, adjetivos ou outros advérbios.' },
-          { pergunta: 'Qual é a tradução de "Hello"?', opcoes: ['Olá', 'Tchau', 'Bom dia', 'Boa tarde'], correta: 0, explicacao: '"Hello" é a saudação mais comum para "Olá".' },
-          { pergunta: 'O que significa "Computer"?', opcoes: ['Computador', 'Televisão', 'Celular', 'Rádio'], correta: 0, explicacao: '"Computer" significa "computador".' },
-          { pergunta: 'Qual é a forma correta do verbo "to do" para "I"?', opcoes: ['Do', 'Does', 'Did', 'Done'], correta: 0, explicacao: '"I do" é a forma correta do verbo "to do" para a primeira pessoa do singular.' },
-          { pergunta: 'O que é um "pronoun" em inglês?', opcoes: ['Palavra que substitui um substantivo', 'Palavra que modifica um substantivo', 'Palavra que liga frases', 'Palavra que expressa ação'], correta: 0, explicacao: 'Pronomes (pronouns) são palavras que substituem substantivos, como "he", "she", "it".' },
-          { pergunta: 'Qual é a tradução de "Good night"?', opcoes: ['Boa noite', 'Boa tarde', 'Bom dia', 'Olá'], correta: 0, explicacao: '"Good night" é usado para desejar "Boa noite".' },
-          { pergunta: 'O que significa "Family"?', opcoes: ['Família', 'Casa', 'Trabalho', 'Escola'], correta: 0, explicacao: '"Family" significa "família".' }
-        ],
-        'Espanhol': [
-          { pergunta: 'Como se diz "Olá" em espanhol?', opcoes: ['Hola', 'Ola', 'Hello', 'Bonjour'], correta: 0, explicacao: '"Hola" é a forma correta de dizer "Olá" em espanhol.' },
-          { pergunta: 'O que significa "Casa" em espanhol?', opcoes: ['Casa', 'Carro', 'Comida', 'Escola'], correta: 0, explicacao: '"Casa" em espanhol significa "casa" (residência).' },
-          { pergunta: 'Qual é a tradução de "Gracias" para português?', opcoes: ['Obrigado', 'Por favor', 'Desculpe', 'Ajuda'], correta: 0, explicacao: '"Gracias" significa "obrigado" em espanhol.' },
-          { pergunta: 'O que é o verbo "Ser" em espanhol?', opcoes: ['Ser', 'Estar', 'Haber', 'Tener'], correta: 0, explicacao: '"Ser" é um dos verbos principais em espanhol, equivalente a "ser" em português.' },
-          { pergunta: 'Como se diz "Eu" em espanhol?', opcoes: ['Yo', 'Me', 'Mí', 'Mi'], correta: 0, explicacao: '"Yo" é o pronome pessoal para "eu" em espanhol.' },
-          { pergunta: 'Qual é o plural de "Libro"?', opcoes: ['Libros', 'Libroes', 'Libri', 'Libres'], correta: 0, explicacao: 'O plural de "libro" (livro) é "libros".' },
-          { pergunta: 'O que significa "Amigo" em espanhol?', opcoes: ['Amigo', 'Inimigo', 'Conhecido', 'Parente'], correta: 0, explicacao: '"Amigo" tem o mesmo significado em português e espanhol.' },
-          { pergunta: 'Qual é a saudação para "Boa noite" em espanhol?', opcoes: ['Buenas noches', 'Buenas tardes', 'Buenos días', 'Hola'], correta: 0, explicacao: '"Buenas noches" é a saudação para "Boa noite".' },
-          { pergunta: 'O que é o "Pretérito Perfecto" em espanhol?', opcoes: ['Passado próximo', 'Futuro', 'Presente', 'Passado distante'], correta: 0, explicacao: 'O "Pretérito Perfecto" é usado para ações concluídas no passado recente.' },
-          { pergunta: 'Como se diz "Feliz" em espanhol?', opcoes: ['Feliz', 'Triste', 'Enojado', 'Cansado'], correta: 0, explicacao: '"Feliz" é a palavra para "feliz" em espanhol, igual ao português.' },
-          { pergunta: 'Qual é a tradução de "Adiós"?', opcoes: ['Tchau', 'Olá', 'Bom dia', 'Obrigado'], correta: 0, explicacao: '"Adiós" significa "Tchau" ou "Adeus" em espanhol.' },
-          { pergunta: 'O que significa "Comida" em espanhol?', opcoes: ['Comida', 'Bebida', 'Sobremesa', 'Café'], correta: 0, explicacao: '"Comida" em espanhol tem o mesmo significado que em português.' },
-          { pergunta: 'Como se diz "Por favor" em espanhol?', opcoes: ['Por favor', 'Gracias', 'Lo siento', 'De nada'], correta: 0, explicacao: '"Por favor" é a expressão usada para pedir algo educadamente.' },
-          { pergunta: 'O que é o verbo "Estar" em espanhol?', opcoes: ['Estar', 'Ser', 'Haber', 'Tener'], correta: 0, explicacao: '"Estar" é um dos verbos principais em espanhol, usado para estados temporários.' },
-          { pergunta: 'Qual é a forma correta do verbo "ser" para "Ellos"?', opcoes: ['Son', 'Soy', 'Es', 'Somos'], correta: 0, explicacao: '"Ellos son" é a forma correta do verbo "ser" para a terceira pessoa do plural.' },
-          { pergunta: 'O que significa "Buenos días"?', opcoes: ['Bom dia', 'Boa tarde', 'Boa noite', 'Olá'], correta: 0, explicacao: '"Buenos días" significa "Bom dia".' },
-          { pergunta: 'Qual é a tradução de "Trabajo"?', opcoes: ['Trabalho', 'Casa', 'Escola', 'Família'], correta: 0, explicacao: '"Trabajo" significa "trabalho" em espanhol.' },
-          { pergunta: 'O que é o "Futuro Imperfecto" em espanhol?', opcoes: ['Tempo futuro', 'Passado', 'Presente', 'Condicional'], correta: 0, explicacao: 'O "Futuro Imperfecto" é o tempo verbal que expressa ações futuras.' },
-          { pergunta: 'Como se diz "Sim" em espanhol?', opcoes: ['Sí', 'No', 'Tal vez', 'Claro'], correta: 0, explicacao: '"Sí" significa "Sim" em espanhol.' },
-          { pergunta: 'Qual é a tradução de "Agua"?', opcoes: ['Água', 'Fogo', 'Ar', 'Terra'], correta: 0, explicacao: '"Agua" significa "água" em espanhol.' }
-        ]
-      },
-      humanas: {
-        'História': [
-          { pergunta: 'A Revolução Francesa (1789) foi influenciada por quais ideias?', opcoes: ['Socialismo', 'Iluminismo', 'Anarquismo', 'Fascismo'], correta: 1, explicacao: 'O Iluminismo, com ideias de liberdade, igualdade e fraternidade, foi a base filosófica da Revolução Francesa.' },
-          { pergunta: 'A Guerra Fria foi um conflito entre:', opcoes: ['EUA e URSS', 'França e Inglaterra', 'Alemanha e Itália', 'China e Japão'], correta: 0, explicacao: 'A Guerra Fria foi a disputa ideológica entre Estados Unidos (capitalismo) e União Soviética (socialismo).' },
-          { pergunta: 'O que foi o movimento "Diretas Já"?', opcoes: ['Campanha por eleições diretas para presidente', 'Revolução de 1930', 'Golpe militar de 1964', 'Abolição da escravatura'], correta: 0, explicacao: '"Diretas Já" foi um movimento popular que lutou por eleições diretas para presidente no Brasil em 1984.' },
-          { pergunta: 'A Primeira Guerra Mundial foi desencadeada por:', opcoes: ['Assassinato de Francisco Ferdinando', 'Invasão da Polônia', 'Ataque a Pearl Harbor', 'Crise de 1929'], correta: 0, explicacao: 'O estopim foi o assassinato do arquiduque Francisco Ferdinando, em 1914.' },
-          { pergunta: 'O que foi a Inconfidência Mineira?', opcoes: ['Movimento separatista em Minas Gerais', 'Revolta dos escravos', 'Guerra do Paraguai', 'Movimento abolicionista'], correta: 0, explicacao: 'A Inconfidência Mineira foi um movimento separatista ocorrido em Minas Gerais (1789).' },
-          { pergunta: 'Quem foi o líder da Independência do Brasil?', opcoes: ['Dom Pedro I', 'Dom João VI', 'Getúlio Vargas', 'Tiradentes'], correta: 0, explicacao: 'Dom Pedro I liderou o processo de independência do Brasil, proclamada em 1822.' },
-          { pergunta: 'O feudalismo predominou na Europa durante:', opcoes: ['Idade Antiga', 'Idade Média', 'Idade Moderna', 'Idade Contemporânea'], correta: 1, explicacao: 'O feudalismo foi o sistema social e político predominante na Idade Média.' },
-          { pergunta: 'A Revolução Russa de 1917 resultou na:', opcoes: ['Instauração do capitalismo', 'Criação da União Soviética', 'Restauração do czarismo', 'Independência da Rússia'], correta: 1, explicacao: 'A Revolução Russa levou à criação da União Soviética e ao fim do czarismo.' },
-          { pergunta: 'O que foi a Guerra do Vietnã?', opcoes: ['Conflito entre EUA e Vietnã do Norte', 'Guerra civil na Coreia', 'Conflito entre França e Vietnã', 'Guerra entre China e Japão'], correta: 0, explicacao: 'A Guerra do Vietnã foi um conflito entre os EUA (apoio ao Vietnã do Sul) e o Vietnã do Norte (comunista).' },
-          { pergunta: 'A queda do Muro de Berlim ocorreu em:', opcoes: ['1989', '1991', '1985', '1995'], correta: 0, explicacao: 'O Muro de Berlim foi derrubado em 1989, simbolizando o fim da Guerra Fria.' },
-          { pergunta: 'O que foi o Nazismo?', opcoes: ['Ideologia de Adolf Hitler', 'Ideologia comunista', 'Ideologia liberal', 'Ideologia socialista'], correta: 0, explicacao: 'O Nazismo foi a ideologia de Adolf Hitler, baseada no nacionalismo extremo e no racismo.' },
-          { pergunta: 'A Revolução Industrial começou na:', opcoes: ['Inglaterra', 'França', 'Alemanha', 'Estados Unidos'], correta: 0, explicacao: 'A Revolução Industrial começou na Inglaterra no século XVIII.' },
-          { pergunta: 'O que foi o Iluminismo?', opcoes: ['Movimento filosófico que valorizava a razão', 'Movimento religioso', 'Movimento artístico', 'Movimento político'], correta: 0, explicacao: 'O Iluminismo foi um movimento filosófico que valorizava a razão, a ciência e a liberdade individual.' },
-          { pergunta: 'Quem foi Napoleão Bonaparte?', opcoes: ['Líder militar e imperador francês', 'Rei da Inglaterra', 'Presidente dos EUA', 'Czar da Rússia'], correta: 0, explicacao: 'Napoleão Bonaparte foi um líder militar e imperador francês que expandiu o domínio francês na Europa.' },
-          { pergunta: 'O que foi a Guerra dos Cem Anos?', opcoes: ['Conflito entre França e Inglaterra', 'Guerra entre Roma e Cartago', 'Conflito entre Espanha e Portugal', 'Guerra entre China e Japão'], correta: 0, explicacao: 'A Guerra dos Cem Anos foi um conflito entre França e Inglaterra no século XIV.' },
-          { pergunta: 'O que foi o Mercantilismo?', opcoes: ['Política econômica do Estado absolutista', 'Sistema socialista', 'Sistema feudal', 'Sistema capitalista'], correta: 0, explicacao: 'O Mercantilismo foi a política econômica dos Estados absolutistas, baseada no comércio e na acumulação de metais preciosos.' },
-          { pergunta: 'Quem foi o líder da Revolução Cubana?', opcoes: ['Fidel Castro', 'Che Guevara', 'Camilo Cienfuegos', 'Raúl Castro'], correta: 0, explicacao: 'Fidel Castro foi o principal líder da Revolução Cubana, que derrubou o regime de Fulgêncio Batista em 1959.' },
-          { pergunta: 'O que foi a Primavera dos Povos?', opcoes: ['Revoluções liberais na Europa em 1848', 'Revolução Russa', 'Revolução Francesa', 'Revolução Industrial'], correta: 0, explicacao: 'A Primavera dos Povos foi uma onda de revoluções liberais que ocorreu na Europa em 1848.' },
-          { pergunta: 'O que foi a União Europeia?', opcoes: ['Bloco econômico e político europeu', 'Tratado de paz', 'Aliança militar', 'Organização cultural'], correta: 0, explicacao: 'A União Europeia é um bloco econômico e político que integra diversos países europeus.' },
-          { pergunta: 'Quem foi Martin Luther King?', opcoes: ['Líder dos direitos civis nos EUA', 'Presidente dos EUA', 'Rei da Inglaterra', 'Líder religioso'], correta: 0, explicacao: 'Martin Luther King foi um líder dos direitos civis nos EUA, conhecido por sua luta contra a segregação racial.' }
-        ],
-        'Geografia': [
-          { pergunta: 'Qual teoria explica a relação entre países centrais e periféricos?', opcoes: ['Teoria da Modernização', 'Teoria da Dependência', 'Teoria Malthusiana', 'Determinismo ambiental'], correta: 1, explicacao: 'A Teoria da Dependência analisa a relação de subordinação entre países centrais (desenvolvidos) e periféricos (subdesenvolvidos).' },
-          { pergunta: 'O que são biomas?', opcoes: ['Regiões com clima e vegetação semelhantes', 'Divisões políticas', 'Áreas urbanas', 'Zonas climáticas'], correta: 0, explicacao: 'Biomas são grandes conjuntos de ecossistemas com características semelhantes de clima, vegetação e fauna.' },
-          { pergunta: 'A Amazônia é um bioma de:', opcoes: ['Floresta tropical', 'Savana', 'Tundra', 'Deserto'], correta: 0, explicacao: 'A Amazônia é a maior floresta tropical do mundo, com rica biodiversidade.' },
-          { pergunta: 'O que é a globalização?', opcoes: ['Integração econômica e cultural mundial', 'Fragmentação dos mercados', 'Isolamento político', 'Nacionalismo extremo'], correta: 0, explicacao: 'A globalização é o processo de integração econômica, cultural e política em escala global.' },
-          { pergunta: 'Qual é a corrente marítima que banha a costa brasileira?', opcoes: ['Corrente do Golfo', 'Corrente de Humboldt', 'Corrente do Brasil', 'Corrente do Atlântico Norte'], correta: 2, explicacao: 'A Corrente do Brasil é uma corrente quente que banha o litoral brasileiro.' },
-          { pergunta: 'O que é IDH?', opcoes: ['Índice de Desenvolvimento Humano', 'Índice de Desenvolvimento Econômico', 'Índice de Desigualdade', 'Índice de Pobreza'], correta: 0, explicacao: 'O IDH mede o desenvolvimento humano com base em saúde, educação e renda.' },
-          { pergunta: 'O fenômeno El Niño afeta:', opcoes: ['O aquecimento do Oceano Pacífico', 'O resfriamento do Atlântico', 'Aumento da umidade no deserto', 'Diminuição do nível do mar'], correta: 0, explicacao: 'O El Niño é o aquecimento anormal das águas do Pacífico, alterando o clima global.' },
-          { pergunta: 'Brasil é dividido em quantas regiões geográficas?', opcoes: ['4', '5', '6', '3'], correta: 1, explicacao: 'O Brasil é oficialmente dividido em 5 regiões: Norte, Nordeste, Centro-Oeste, Sudeste e Sul.' },
-          { pergunta: 'O que é a agricultura de subsistência?', opcoes: ['Produção para autoconsumo', 'Produção em larga escala', 'Exportação', 'Agricultura orgânica'], correta: 0, explicacao: 'A agricultura de subsistência visa atender às necessidades do produtor e sua família.' },
-          { pergunta: 'O que são aquíferos?', opcoes: ['Camadas subterrâneas de água', 'Rios superficiais', 'Lagos de água salgada', 'Geleiras'], correta: 0, explicacao: 'Aquíferos são formações geológicas que armazenam água subterrânea.' },
-          { pergunta: 'O que é a erosão?', opcoes: ['Desgaste do solo pela ação da água e do vento', 'Formação de montanhas', 'Aumento da vegetação', 'Crescimento populacional'], correta: 0, explicacao: 'A erosão é o desgaste do solo e das rochas pela ação da água, do vento e de outros agentes naturais.' },
-          { pergunta: 'O que é o efeito estufa?', opcoes: ['Aquecimento da Terra por gases na atmosfera', 'Resfriamento da Terra', 'Aumento da umidade', 'Diminuição da radiação solar'], correta: 0, explicacao: 'O efeito estufa é o aquecimento da Terra causado pela retenção de calor por gases na atmosfera.' },
-          { pergunta: 'O que são as placas tectônicas?', opcoes: ['Fragmentos da crosta terrestre que se movem', 'Camadas da atmosfera', 'Partículas do núcleo', 'Ondas sísmicas'], correta: 0, explicacao: 'As placas tectônicas são fragmentos da crosta terrestre que se movem, causando terremotos e vulcões.' },
-          { pergunta: 'O que é a urbanização?', opcoes: ['Crescimento das cidades', 'Crescimento do campo', 'Diminuição da população', 'Migração para áreas rurais'], correta: 0, explicacao: 'A urbanização é o processo de crescimento das cidades, com o aumento da população urbana.' },
-          { pergunta: 'O que são as mudanças climáticas?', opcoes: ['Alterações no clima global', 'Mudanças no clima local', 'Variações sazonais', 'Alterações no relevo'], correta: 0, explicacao: 'As mudanças climáticas são alterações no clima global, como o aquecimento global e eventos extremos.' },
-          { pergunta: 'O que é a desertificação?', opcoes: ['Processo de degradação do solo em áreas áridas', 'Formação de desertos', 'Crescimento da vegetação', 'Aumento da umidade'], correta: 0, explicacao: 'A desertificação é o processo de degradação do solo em áreas áridas, semiáridas e subúmidas secas.' },
-          { pergunta: 'O que é a energia renovável?', opcoes: ['Energia de fontes que se regeneram', 'Energia de combustíveis fósseis', 'Energia nuclear', 'Energia térmica'], correta: 0, explicacao: 'Energia renovável é aquela obtida de fontes que se regeneram naturalmente, como solar, eólica e hidráulica.' },
-          { pergunta: 'O que é a demografia?', opcoes: ['Estudo da população', 'Estudo do clima', 'Estudo da geografia', 'Estudo da história'], correta: 0, explicacao: 'A demografia é o estudo da população, incluindo sua distribuição, composição e crescimento.' },
-          { pergunta: 'O que é a migração?', opcoes: ['Movimento de pessoas entre regiões', 'Movimento de animais', 'Movimento de mercadorias', 'Movimento de capitais'], correta: 0, explicacao: 'A migração é o movimento de pessoas entre regiões ou países, podendo ser interna ou internacional.' },
-          { pergunta: 'O que é a cartografia?', opcoes: ['Arte de fazer mapas', 'Estudo do clima', 'Estudo da população', 'Estudo da geografia'], correta: 0, explicacao: 'A cartografia é a arte e a ciência de fazer mapas e representações da superfície terrestre.' }
-        ],
-        'Filosofia': [
-          { pergunta: 'Quem é considerado o pai da Filosofia?', opcoes: ['Sócrates', 'Platão', 'Aristóteles', 'Tales de Mileto'], correta: 0, explicacao: 'Sócrates é considerado o pai da Filosofia ocidental, por seu método de questionamento (maiêutica).' },
-          { pergunta: 'A frase "Conhece-te a ti mesmo" é atribuída a:', opcoes: ['Sócrates', 'Platão', 'Nietzsche', 'Descartes'], correta: 0, explicacao: 'O autoconhecimento é um dos princípios centrais de Sócrates.' },
-          { pergunta: 'O que é o Empirismo?', opcoes: ['Doutrina que valoriza a experiência sensorial', 'Doutrina que valoriza a razão', 'Doutrina que nega o conhecimento', 'Doutrina religiosa'], correta: 0, explicacao: 'O Empirismo defende que o conhecimento vem da experiência sensorial.' },
-          { pergunta: 'Para Platão, o mundo sensível é:', opcoes: ['A verdadeira realidade', 'Uma cópia do mundo das ideias', 'O único existente', 'Ilusório e eterno'], correta: 1, explicacao: 'Platão via o mundo sensível como uma sombra do mundo das ideias (mundo inteligível).' },
-          { pergunta: 'O que é a "dúvida metódica" em Descartes?', opcoes: ['Duvidar de tudo para encontrar a verdade', 'Aceitar tudo sem questionar', 'Duvidar apenas de Deus', 'Rejeitar a matemática'], correta: 0, explicacao: 'Descartes propôs duvidar de tudo que pudesse ser duvidado para chegar a uma certeza (o "penso, logo existo").' },
-          { pergunta: 'O existencialismo tem como tema central:', opcoes: ['A essência do ser', 'A liberdade e a angústia', 'A felicidade plena', 'A vida após a morte'], correta: 1, explicacao: 'O existencialismo aborda a liberdade, a angústia e a responsabilidade do indivíduo.' },
-          { pergunta: 'O que é a ética para Aristóteles?', opcoes: ['A busca pela felicidade através da virtude', 'A obediência às leis', 'O prazer como fim', 'A indiferença'], correta: 0, explicacao: 'Para Aristóteles, a ética visa a felicidade (eudaimonia) por meio da virtude e do equilíbrio.' },
-          { pergunta: 'O Iluminismo defendia:', opcoes: ['O absolutismo', 'A liberdade de pensamento', 'A censura', 'O teocentrismo'], correta: 1, explicacao: 'O Iluminismo valorizava a razão, a liberdade de pensamento e a crítica ao absolutismo.' },
-          { pergunta: 'Quem escreveu "O Contrato Social"?', opcoes: ['Rousseau', 'Locke', 'Hobbes', 'Montesquieu'], correta: 0, explicacao: 'O "Contrato Social" é uma obra de Rousseau que discute a origem da sociedade.' },
-          { pergunta: 'A Filosofia Política de Maquiavel é marcada por:', opcoes: ['O idealismo', 'O realismo e a análise do poder', 'A utopia', 'A defesa da democracia'], correta: 1, explicacao: 'Maquiavel é conhecido por seu realismo político, analisando o poder como ele é.' },
-          { pergunta: 'O que é a dialética para Hegel?', opcoes: ['Método de tese, antítese e síntese', 'Método de dúvida', 'Método de observação', 'Método de experimentação'], correta: 0, explicacao: 'Para Hegel, a dialética é um método que avança por contradições: tese, antítese e síntese.' },
-          { pergunta: 'Quem foi Nietzsche?', opcoes: ['Filósofo alemão que criticou a moral', 'Filósofo grego', 'Filósofo francês', 'Filósofo inglês'], correta: 0, explicacao: 'Nietzsche foi um filósofo alemão que criticou a moral tradicional e a religião.' },
-          { pergunta: 'O que é o utilitarismo?', opcoes: ['Doutrina que busca a utilidade e a felicidade máxima', 'Doutrina que busca a virtude', 'Doutrina que busca a verdade', 'Doutrina que busca a beleza'], correta: 0, explicacao: 'O utilitarismo defende que a ação correta é aquela que traz a maior felicidade para o maior número de pessoas.' },
-          { pergunta: 'O que é o estoicismo?', opcoes: ['Filosofia que busca a tranquilidade através da razão', 'Filosofia do prazer', 'Filosofia da dúvida', 'Filosofia da revolução'], correta: 0, explicacao: 'O estoicismo é uma filosofia que busca a tranquilidade e a serenidade através da razão e do autocontrole.' },
-          { pergunta: 'Quem foi Kant?', opcoes: ['Filósofo alemão que desenvolveu o imperativo categórico', 'Filósofo grego', 'Filósofo francês', 'Filósofo inglês'], correta: 0, explicacao: 'Kant foi um filósofo alemão que desenvolveu a ética do dever, com o imperativo categórico.' },
-          { pergunta: 'O que é a fenomenologia?', opcoes: ['Filosofia que estuda a experiência consciente', 'Filosofia que estuda a realidade', 'Filosofia que estuda a linguagem', 'Filosofia que estuda a história'], correta: 0, explicacao: 'A fenomenologia é uma corrente filosófica que estuda a experiência consciente e os fenômenos como são percebidos.' },
-          { pergunta: 'Quem foi Marx?', opcoes: ['Filósofo e economista alemão, crítico do capitalismo', 'Filósofo grego', 'Filósofo francês', 'Filósofo inglês'], correta: 0, explicacao: 'Marx foi um filósofo e economista alemão que criticou o capitalismo e desenvolveu a teoria do materialismo histórico.' },
-          { pergunta: 'O que é o materialismo histórico?', opcoes: ['Teoria de Marx sobre a história baseada na luta de classes', 'Teoria de Hegel', 'Teoria de Kant', 'Teoria de Nietzsche'], correta: 0, explicacao: 'O materialismo histórico de Marx afirma que a história é impulsionada pela luta de classes e pelas condições materiais.' },
-          { pergunta: 'O que é a filosofia da linguagem?', opcoes: ['Ramo da filosofia que estuda a linguagem', 'Ramo da filosofia que estuda a ética', 'Ramo da filosofia que estuda a política', 'Ramo da filosofia que estuda a arte'], correta: 0, explicacao: 'A filosofia da linguagem estuda a natureza, a origem e o uso da linguagem.' },
-          { pergunta: 'O que é a hermenêutica?', opcoes: ['Arte da interpretação', 'Arte da argumentação', 'Arte da poesia', 'Arte da música'], correta: 0, explicacao: 'A hermenêutica é a arte da interpretação de textos, especialmente filosóficos e religiosos.' }
-        ],
-        'Sociologia': [
-          { pergunta: 'O que é a Sociologia?', opcoes: ['Estudo do clima', 'Estudo das sociedades humanas', 'Estudo do direito', 'Estudo da mente'], correta: 1, explicacao: 'A Sociologia é a ciência que estuda a sociedade, suas estruturas e relações.' },
-          { pergunta: 'Qual é o conceito de "mais-valia" para Karl Marx?', opcoes: ['Valor agregado pelo trabalho', 'Lucro do capitalista sobre o trabalho', 'Imposto sobre a produção', 'Custo da matéria-prima'], correta: 1, explicacao: 'Para Marx, a mais-valia é a diferença entre o valor produzido pelo trabalhador e o salário, apropriada pelo capitalista.' },
-          { pergunta: 'O que é a estratificação social?', opcoes: ['Divisão da sociedade em camadas', 'Igualdade social', 'Mobilidade social', 'Anarquia'], correta: 0, explicacao: 'Estratificação social é a divisão da sociedade em camadas ou classes sociais.' },
-          { pergunta: 'Quem é considerado o pai da Sociologia?', opcoes: ['Auguste Comte', 'Karl Marx', 'Émile Durkheim', 'Max Weber'], correta: 0, explicacao: 'Auguste Comte é considerado o pai da Sociologia, por cunhar o termo e estabelecer seus fundamentos.' },
-          { pergunta: 'O que é a anomia para Durkheim?', opcoes: ['Falta de normas sociais', 'Solidariedade mecânica', 'Coesão social', 'Divisão do trabalho'], correta: 0, explicacao: 'Anomia é a ausência ou enfraquecimento das normas sociais, gerando desorientação.' },
-          { pergunta: 'O que é a luta de classes para Marx?', opcoes: ['Conflito entre proletariado e burguesia', 'Harmonia entre classes', 'Cooperação social', 'Igualdade de oportunidades'], correta: 0, explicacao: 'Marx via a história como uma luta de classes entre os que possuem os meios de produção e os que não possuem.' },
-          { pergunta: 'O que é o capitalismo?', opcoes: ['Sistema econômico baseado na propriedade privada e lucro', 'Sistema socialista', 'Sistema feudal', 'Sistema escravagista'], correta: 0, explicacao: 'O capitalismo é um sistema econômico com base na propriedade privada, livre mercado e busca pelo lucro.' },
-          { pergunta: 'O que é a globalização para a Sociologia?', opcoes: ['Processo de integração mundial', 'Fragmentação cultural', 'Isolamento político', 'Regionalização'], correta: 0, explicacao: 'Sociologicamente, a globalização é a intensificação das relações sociais em escala mundial.' },
-          { pergunta: 'O que é a ideologia?', opcoes: ['Conjunto de ideias e crenças', 'Sistema econômico', 'Estrutura política', 'Religião'], correta: 0, explicacao: 'Ideologia é um conjunto de ideias, valores e crenças que orientam grupos sociais.' },
-          { pergunta: 'O que é a ação social para Max Weber?', opcoes: ['Ação dotada de sentido subjetivo', 'Ação instintiva', 'Ação mecânica', 'Ação religiosa'], correta: 0, explicacao: 'Weber define ação social como uma conduta humana com sentido subjetivo e orientada para outros.' },
-          { pergunta: 'O que é a cultura para a Sociologia?', opcoes: ['Conjunto de valores, crenças e costumes', 'Apenas arte e música', 'Apenas língua', 'Apenas religião'], correta: 0, explicacao: 'A cultura é o conjunto de valores, crenças, costumes e práticas de uma sociedade.' },
-          { pergunta: 'O que é o preconceito?', opcoes: ['Juízo negativo baseado em estereótipos', 'Opinião baseada em fatos', 'Crítica construtiva', 'Análise científica'], correta: 0, explicacao: 'Preconceito é um juízo negativo formado antes do conhecimento, baseado em estereótipos.' },
-          { pergunta: 'O que é a democracia?', opcoes: ['Sistema político com participação popular', 'Sistema autoritário', 'Sistema monárquico', 'Sistema feudal'], correta: 0, explicacao: 'A democracia é um sistema político em que o poder é exercido pelo povo, por meio de representantes ou diretamente.' },
-          { pergunta: 'O que é a cidadania?', opcoes: ['Conjunto de direitos e deveres de um cidadão', 'Status social', 'Nacionalidade', 'Obrigação militar'], correta: 0, explicacao: 'Cidadania é o exercício dos direitos e deveres de um indivíduo como membro de uma sociedade.' },
-          { pergunta: 'O que é o movimento social?', opcoes: ['Ação coletiva por mudança social', 'Ação individual', 'Ação política', 'Ação econômica'], correta: 0, explicacao: 'Movimentos sociais são ações coletivas que buscam mudanças sociais, políticas ou culturais.' },
-          { pergunta: 'O que é a desigualdade social?', opcoes: ['Distribuição desigual de recursos e oportunidades', 'Igualdade de oportunidades', 'Justiça social', 'Mobilidade social'], correta: 0, explicacao: 'A desigualdade social é a distribuição desigual de recursos, renda, educação e oportunidades.' },
-          { pergunta: 'O que é o trabalho na Sociologia?', opcoes: ['Atividade humana que produz valor', 'Apenas atividade remunerada', 'Apenas atividade doméstica', 'Apenas atividade artística'], correta: 0, explicacao: 'Na Sociologia, trabalho é qualquer atividade humana que produz valor, seja remunerada ou não.' },
-          { pergunta: 'O que é a família na Sociologia?', opcoes: ['Grupo social de parentesco', 'Grupo de amigos', 'Grupo religioso', 'Grupo político'], correta: 0, explicacao: 'A família é um grupo social baseado em laços de parentesco, com funções de socialização e afeto.' },
-          { pergunta: 'O que é a educação na Sociologia?', opcoes: ['Processo de transmissão de cultura e conhecimento', 'Apenas ensino formal', 'Apenas ensino religioso', 'Apenas ensino técnico'], correta: 0, explicacao: 'Na Sociologia, a educação é o processo de transmissão de cultura, valores e conhecimento.' },
-          { pergunta: 'O que é a religião na Sociologia?', opcoes: ['Sistema de crenças e práticas sobre o sagrado', 'Apenas instituição', 'Apenas crença', 'Apenas ritual'], correta: 0, explicacao: 'A religião é um sistema de crenças, práticas e instituições relacionadas ao sagrado e à transcendência.' }
-        ]
-      },
-      natureza: {
-        'Biologia': [
-          { pergunta: 'Qual organela é responsável pela respiração celular?', opcoes: ['Cloroplasto', 'Mitocôndria', 'Ribossomo', 'Complexo de Golgi'], correta: 1, explicacao: 'A mitocôndria é onde ocorre a respiração celular, produzindo ATP.' },
-          { pergunta: 'Qual é a função do DNA?', opcoes: ['Produzir proteínas', 'Armazenar informação genética', 'Regular o metabolismo', 'Transportar oxigênio'], correta: 1, explicacao: 'O DNA armazena a informação genética que é passada de geração em geração.' },
-          { pergunta: 'A fotossíntese converte energia solar em:', opcoes: ['Energia elétrica', 'Energia química (glicose)', 'Energia térmica', 'Energia cinética'], correta: 1, explicacao: 'A fotossíntese transforma a energia luminosa em energia química, armazenada na glicose.' },
-          { pergunta: 'O que é um ecossistema?', opcoes: ['Conjunto de seres vivos e ambiente', 'Apenas animais', 'Apenas plantas', 'Apenas o solo'], correta: 0, explicacao: 'Ecossistema é a interação entre os seres vivos (bióticos) e o ambiente (abiótico).' },
-          { pergunta: 'Qual é a unidade básica da vida?', opcoes: ['Átomo', 'Molécula', 'Célula', 'Tecido'], correta: 2, explicacao: 'A célula é a menor unidade estrutural e funcional dos seres vivos.' },
-          { pergunta: 'O que é uma cadeia alimentar?', opcoes: ['Relação de predação entre seres', 'Fluxo de energia e matéria', 'Relação de competição', 'Ciclo de vida'], correta: 1, explicacao: 'A cadeia alimentar representa o fluxo de energia e matéria entre os seres vivos.' },
-          { pergunta: 'Os vírus são considerados seres vivos?', opcoes: ['Sim, sempre', 'Não, pois não têm células', 'Sim, pois se reproduzem', 'Depende do ponto de vista'], correta: 3, explicacao: 'Os vírus não são considerados seres vivos por alguns, pois não têm células e só se replicam em hospedeiros.' },
-          { pergunta: 'Qual é o sistema que coordena as funções do corpo?', opcoes: ['Sistema endócrino', 'Sistema nervoso', 'Sistema circulatório', 'Sistema digestório'], correta: 1, explicacao: 'O sistema nervoso coordena as funções do corpo e responde a estímulos.' },
-          { pergunta: 'A evolução das espécies é explicada por:', opcoes: ['Darwin e a seleção natural', 'Lamarck e o uso e desuso', 'Mendel e a genética', 'Os três'], correta: 0, explicacao: 'A teoria da evolução por seleção natural de Darwin é a mais aceita para explicar a evolução.' },
-          { pergunta: 'Qual é o processo de divisão celular que forma gametas?', opcoes: ['Mitose', 'Meiose', 'Fissão binária', 'Brotamento'], correta: 1, explicacao: 'A meiose é o processo de divisão celular que forma gametas (células reprodutivas).' },
-          { pergunta: 'O que são tecidos?', opcoes: ['Conjunto de células semelhantes', 'Conjunto de órgãos', 'Conjunto de sistemas', 'Conjunto de moléculas'], correta: 0, explicacao: 'Tecidos são conjuntos de células semelhantes que realizam funções específicas.' },
-          { pergunta: 'O que é a genética?', opcoes: ['Estudo da hereditariedade e variação', 'Estudo do clima', 'Estudo da população', 'Estudo da geografia'], correta: 0, explicacao: 'A genética é o estudo da hereditariedade e da variação dos seres vivos.' },
-          { pergunta: 'O que é a ecologia?', opcoes: ['Estudo das interações entre seres vivos e o ambiente', 'Estudo das células', 'Estudo dos tecidos', 'Estudo da evolução'], correta: 0, explicacao: 'A ecologia estuda as interações entre os seres vivos e o ambiente.' },
-          { pergunta: 'O que são os alimentos?', opcoes: ['Substâncias que fornecem energia e nutrientes', 'Apenas carboidratos', 'Apenas proteínas', 'Apenas lipídios'], correta: 0, explicacao: 'Alimentos são substâncias que fornecem energia e nutrientes para o organismo.' },
-          { pergunta: 'O que é a saúde?', opcoes: ['Estado de bem-estar físico, mental e social', 'Ausência de doença', 'Apenas bem-estar físico', 'Apenas bem-estar mental'], correta: 0, explicacao: 'A saúde é um estado de completo bem-estar físico, mental e social, não apenas a ausência de doença.' },
-          { pergunta: 'O que é o sistema imunológico?', opcoes: ['Sistema de defesa do organismo', 'Sistema digestório', 'Sistema circulatório', 'Sistema nervoso'], correta: 0, explicacao: 'O sistema imunológico defende o organismo contra agentes patogênicos.' },
-          { pergunta: 'O que é a biodiversidade?', opcoes: ['Variedade de vida na Terra', 'Variedade de climas', 'Variedade de paisagens', 'Variedade de rochas'], correta: 0, explicacao: 'A biodiversidade é a variedade de formas de vida na Terra, incluindo espécies, ecossistemas e genes.' },
-          { pergunta: 'O que é a evolução?', opcoes: ['Mudança nas espécies ao longo do tempo', 'Criação divina', 'Adaptação ambiental', 'Seleção artificial'], correta: 0, explicacao: 'A evolução é a mudança nas espécies ao longo do tempo, por meio de mecanismos como a seleção natural.' },
-          { pergunta: 'O que é a homeostase?', opcoes: ['Equilíbrio interno do organismo', 'Desequilíbrio', 'Doença', 'Adaptação'], correta: 0, explicacao: 'A homeostase é a capacidade do organismo de manter o equilíbrio interno, apesar das mudanças externas.' },
-          { pergunta: 'O que é a reprodução?', opcoes: ['Processo de gerar novos indivíduos', 'Processo de crescimento', 'Processo de envelhecimento', 'Processo de morte'], correta: 0, explicacao: 'A reprodução é o processo biológico que gera novos indivíduos, garantindo a continuidade das espécies.' }
-        ],
-        'Química': [
-          { pergunta: 'A água é considerada um solvente universal devido à sua:', opcoes: ['Polaridade', 'Acidez', 'Densidade', 'Cor'], correta: 0, explicacao: 'A polaridade da água permite que ela dissolva muitas substâncias.' },
-          { pergunta: 'Qual elemento químico é indispensável para a formação de proteínas?', opcoes: ['Oxigênio', 'Nitrogênio', 'Carbono', 'Hidrogênio'], correta: 1, explicacao: 'O nitrogênio é um componente essencial dos aminoácidos, que formam as proteínas.' },
-          { pergunta: 'O processo de separação de misturas por pontos de ebulição chama-se:', opcoes: ['Filtração', 'Destilação', 'Cristalização', 'Decantação'], correta: 1, explicacao: 'A destilação separa misturas com base na diferença de pontos de ebulição.' },
-          { pergunta: 'Qual é a fórmula da água?', opcoes: ['H2O', 'CO2', 'NaCl', 'H2O2'], correta: 0, explicacao: 'A fórmula da água é H2O, composta por dois átomos de hidrogênio e um de oxigênio.' },
-          { pergunta: 'O que é uma reação de oxirredução?', opcoes: ['Reação com transferência de elétrons', 'Reação com troca de íons', 'Reação com liberação de gás', 'Reação com mudança de cor'], correta: 0, explicacao: 'Oxirredução envolve a transferência de elétrons entre as substâncias.' },
-          { pergunta: 'Qual é o pH da água pura?', opcoes: ['5', '7', '9', '14'], correta: 1, explicacao: 'O pH da água pura é 7, neutro.' },
-          { pergunta: 'A combustão é uma reação:', opcoes: ['Endotérmica', 'Exotérmica', 'Neutra', 'Fotossintética'], correta: 1, explicacao: 'A combustão libera energia na forma de calor, portanto é exotérmica.' },
-          { pergunta: 'O que são isômeros?', opcoes: ['Compostos com mesma fórmula e diferentes estruturas', 'Compostos com fórmulas diferentes', 'Compostos radioativos', 'Compostos inorgânicos'], correta: 0, explicacao: 'Isômeros são compostos que têm a mesma fórmula molecular, mas diferentes estruturas.' },
-          { pergunta: 'Qual gás é conhecido como "gás de cozinha"?', opcoes: ['Metano', 'Propano', 'Butano', 'Etanol'], correta: 1, explicacao: 'O gás de cozinha é geralmente propano ou butano, mas o principal é o propano.' },
-          { pergunta: 'A tabela periódica está organizada por:', opcoes: ['Número atômico crescente', 'Massa atômica decrescente', 'Ordem alfabética', 'Reatividade'], correta: 0, explicacao: 'A tabela periódica está organizada em ordem crescente de número atômico.' },
-          { pergunta: 'O que é um ácido?', opcoes: ['Substância que libera íons H+', 'Substância que libera íons OH-', 'Substância neutra', 'Substância metálica'], correta: 0, explicacao: 'Ácidos são substâncias que liberam íons de hidrogênio (H+) em solução aquosa.' },
-          { pergunta: 'O que é uma base?', opcoes: ['Substância que libera íons OH-', 'Substância que libera H+', 'Substância neutra', 'Substância metálica'], correta: 0, explicacao: 'Bases são substâncias que liberam íons hidroxila (OH-) em solução aquosa.' },
-          { pergunta: 'O que é o sal?', opcoes: ['Produto da neutralização entre ácido e base', 'Substância ácida', 'Substância básica', 'Substância neutra'], correta: 0, explicacao: 'O sal é o produto da reação de neutralização entre um ácido e uma base.' },
-          { pergunta: 'O que é a oxidação?', opcoes: ['Perda de elétrons', 'Ganho de elétrons', 'Perda de prótons', 'Ganho de prótons'], correta: 0, explicacao: 'A oxidação é a perda de elétrons por uma substância.' },
-          { pergunta: 'O que é a redução?', opcoes: ['Ganho de elétrons', 'Perda de elétrons', 'Ganho de prótons', 'Perda de prótons'], correta: 0, explicacao: 'A redução é o ganho de elétrons por uma substância.' },
-          { pergunta: 'O que é a ligação iônica?', opcoes: ['Ligação por transferência de elétrons', 'Ligação por compartilhamento de elétrons', 'Ligação metálica', 'Ligação de van der Waals'], correta: 0, explicacao: 'A ligação iônica ocorre pela transferência de elétrons entre átomos.' },
-          { pergunta: 'O que é a ligação covalente?', opcoes: ['Ligação por compartilhamento de elétrons', 'Ligação por transferência de elétrons', 'Ligação metálica', 'Ligação de van der Waals'], correta: 0, explicacao: 'A ligação covalente ocorre pelo compartilhamento de pares de elétrons entre átomos.' },
-          { pergunta: 'O que é a estequiometria?', opcoes: ['Cálculo das quantidades em reações químicas', 'Estudo das ligações', 'Estudo dos gases', 'Estudo das soluções'], correta: 0, explicacao: 'A estequiometria é o cálculo das quantidades de reagentes e produtos em uma reação química.' },
-          { pergunta: 'O que é a termoquímica?', opcoes: ['Estudo das trocas de calor em reações', 'Estudo das ligações', 'Estudo dos gases', 'Estudo das soluções'], correta: 0, explicacao: 'A termoquímica estuda as trocas de calor (energia) que ocorrem nas reações químicas.' },
-          { pergunta: 'O que é a cinética química?', opcoes: ['Estudo da velocidade das reações', 'Estudo das ligações', 'Estudo dos gases', 'Estudo das soluções'], correta: 0, explicacao: 'A cinética química estuda a velocidade (taxa) com que as reações químicas ocorrem.' }
-        ],
-        'Física': [
-          { pergunta: 'A Lei de Newton que diz "Toda ação gera uma reação" é a:', opcoes: ['1ª Lei', '2ª Lei', '3ª Lei', 'Lei da Gravitação'], correta: 2, explicacao: 'A 3ª Lei de Newton é o princípio da ação e reação.' },
-          { pergunta: 'A pressão atmosférica é medida com:', opcoes: ['Termômetro', 'Barômetro', 'Hidrômetro', 'Velocímetro'], correta: 1, explicacao: 'O barômetro é o instrumento usado para medir a pressão atmosférica.' },
-          { pergunta: 'A velocidade da luz no vácuo é de aproximadamente:', opcoes: ['3,0 x 10⁸ m/s', '3,0 x 10⁶ m/s', '3,0 x 10¹⁰ m/s', '3,0 x 10⁴ m/s'], correta: 0, explicacao: 'A velocidade da luz no vácuo é de 3,0 x 10⁸ m/s.' },
-          { pergunta: 'O que é a inércia?', opcoes: ['Tendência de um corpo em manter seu estado', 'Força que acelera os corpos', 'Resistência do ar', 'Atrito entre superfícies'], correta: 0, explicacao: 'A inércia é a tendência de um corpo em manter seu estado de repouso ou movimento.' },
-          { pergunta: 'A energia cinética depende da:', opcoes: ['Massa e velocidade', 'Massa e altura', 'Velocidade e altura', 'Força e tempo'], correta: 0, explicacao: 'A energia cinética é dada por Ec = (1/2)mv², dependendo da massa e da velocidade.' },
-          { pergunta: 'O que é a aceleração da gravidade na Terra?', opcoes: ['~9,8 m/s²', '~10 m/s²', '~9,0 m/s²', '~8,9 m/s²'], correta: 0, explicacao: 'A aceleração da gravidade na Terra é aproximadamente 9,8 m/s².' },
-          { pergunta: 'A refração da luz ocorre quando:', opcoes: ['A luz muda de meio', 'A luz reflete em uma superfície', 'A luz é absorvida', 'A luz é polarizada'], correta: 0, explicacao: 'A refração é a mudança de direção da luz ao passar de um meio para outro.' },
-          { pergunta: 'Qual é a unidade de força no SI?', opcoes: ['Newton', 'Joule', 'Watt', 'Pascal'], correta: 0, explicacao: 'A unidade de força no Sistema Internacional é o Newton (N).' },
-          { pergunta: 'O som é uma onda:', opcoes: ['Mecânica', 'Eletromagnética', 'Longitudinal', 'Transversal'], correta: 0, explicacao: 'O som é uma onda mecânica, que precisa de um meio para se propagar.' },
-          { pergunta: 'A lei de Ohm relaciona:', opcoes: ['Tensão, corrente e resistência', 'Potência e energia', 'Força e aceleração', 'Pressão e volume'], correta: 0, explicacao: 'A lei de Ohm afirma que a tensão é igual ao produto da corrente pela resistência (V = R·I).' },
-          { pergunta: 'O que é a corrente elétrica?', opcoes: ['Fluxo de cargas elétricas', 'Fluxo de calor', 'Fluxo de luz', 'Fluxo de som'], correta: 0, explicacao: 'A corrente elétrica é o fluxo ordenado de cargas elétricas.' },
-          { pergunta: 'O que é a potência elétrica?', opcoes: ['Taxa de energia por unidade de tempo', 'Taxa de corrente', 'Taxa de tensão', 'Taxa de resistência'], correta: 0, explicacao: 'A potência elétrica é a taxa de energia consumida por unidade de tempo.' },
-          { pergunta: 'O que é a energia potencial gravitacional?', opcoes: ['Energia armazenada pela altura', 'Energia do movimento', 'Energia da luz', 'Energia do som'], correta: 0, explicacao: 'A energia potencial gravitacional é a energia armazenada por um corpo em função de sua altura.' },
-          { pergunta: 'O que é a energia mecânica?', opcoes: ['Soma da energia cinética e potencial', 'Apenas cinética', 'Apenas potencial', 'Energia térmica'], correta: 0, explicacao: 'A energia mecânica é a soma da energia cinética e da energia potencial.' },
-          { pergunta: 'O que é a termodinâmica?', opcoes: ['Estudo das transformações de energia térmica', 'Estudo das cargas elétricas', 'Estudo da luz', 'Estudo do som'], correta: 0, explicacao: 'A termodinâmica estuda as transformações de energia térmica e suas relações com o trabalho.' },
-          { pergunta: 'O que é a primeira lei da termodinâmica?', opcoes: ['Conservação da energia', 'Entropia sempre aumenta', 'Temperatura absoluta', 'Pressão constante'], correta: 0, explicacao: 'A primeira lei da termodinâmica é o princípio da conservação da energia.' },
-          { pergunta: 'O que é a entropia?', opcoes: ['Medida da desordem de um sistema', 'Medida da energia', 'Medida da temperatura', 'Medida da pressão'], correta: 0, explicacao: 'A entropia é uma medida da desordem ou da aleatoriedade de um sistema.' },
-          { pergunta: 'O que é a radiação?', opcoes: ['Transmissão de energia por ondas', 'Transmissão de calor por contato', 'Transmissão de calor por convecção', 'Transmissão de som'], correta: 0, explicacao: 'A radiação é a transmissão de energia por ondas eletromagnéticas.' },
-          { pergunta: 'O que é a condução de calor?', opcoes: ['Transmissão de calor por contato', 'Transmissão de calor por movimento de fluidos', 'Transmissão de calor por ondas', 'Transmissão de som'], correta: 0, explicacao: 'A condução é a transmissão de calor por contato entre partículas.' },
-          { pergunta: 'O que é a convecção de calor?', opcoes: ['Transmissão de calor por movimento de fluidos', 'Transmissão de calor por contato', 'Transmissão de calor por ondas', 'Transmissão de som'], correta: 0, explicacao: 'A convecção é a transmissão de calor pelo movimento de fluidos (líquidos ou gases).' }
-        ]
-      },
-      matematica: {
-        'Matemática': [
-          { pergunta: 'Quanto é 2 + 2 × 2?', opcoes: ['6', '8', '4', '10'], correta: 0, explicacao: 'Primeiro a multiplicação: 2×2=4, depois a soma: 2+4=6.' },
-          { pergunta: 'Qual a raiz quadrada de 144?', opcoes: ['10', '11', '12', '13'], correta: 2, explicacao: '12 × 12 = 144, portanto a raiz quadrada de 144 é 12.' },
-          { pergunta: 'Qual é a área de um círculo de raio 3 cm? (π ≈ 3,14)', opcoes: ['18,84 cm²', '28,26 cm²', '9,42 cm²', '12,56 cm²'], correta: 1, explicacao: 'Área = π·r² = 3,14·9 = 28,26 cm².' },
-          { pergunta: 'Se f(x) = 2x + 3, qual é f(4)?', opcoes: ['8', '10', '11', '12'], correta: 2, explicacao: 'f(4) = 2·4 + 3 = 8 + 3 = 11.' },
-          { pergunta: 'Quantos lados tem um pentágono?', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: 'Pentágono tem 5 lados.' },
-          { pergunta: 'Qual o valor de x em 3x - 7 = 2?', opcoes: ['1', '2', '3', '4'], correta: 2, explicacao: '3x = 9 => x = 3.' },
-          { pergunta: 'A probabilidade de sair cara no lançamento de uma moeda é:', opcoes: ['1/4', '1/3', '1/2', '2/3'], correta: 2, explicacao: 'A moeda tem 2 lados, a chance de cara é 1/2.' },
-          { pergunta: 'Qual é a média aritmética de 10, 20, 30?', opcoes: ['15', '20', '25', '30'], correta: 1, explicacao: '(10+20+30)/3 = 60/3 = 20.' },
-          { pergunta: 'O que é um número primo?', opcoes: ['Divisível por 2', 'Divisível por 1 e por ele mesmo', 'Divisível por 3', 'Divisível por 4'], correta: 1, explicacao: 'Números primos têm apenas dois divisores: 1 e ele mesmo.' },
-          { pergunta: 'Quanto é 10! (10 fatorial)?', opcoes: ['3.628.800', '3.628.000', '3.628.800', '3.628.800'], correta: 0, explicacao: '10! = 10×9×8×7×6×5×4×3×2×1 = 3.628.800.' },
-          { pergunta: 'Qual é o valor de x em x² = 49?', opcoes: ['7', '-7', '7 ou -7', '49'], correta: 2, explicacao: 'As raízes da equação são 7 e -7.' },
-          { pergunta: 'Qual é a área de um triângulo com base 10 e altura 5?', opcoes: ['25', '30', '50', '15'], correta: 0, explicacao: 'Área = (base × altura)/2 = (10×5)/2 = 25.' },
-          { pergunta: 'O que é uma função quadrática?', opcoes: ['Função com termo x²', 'Função linear', 'Função exponencial', 'Função logarítmica'], correta: 0, explicacao: 'Função quadrática é aquela que tem um termo com x², como f(x) = ax² + bx + c.' },
-          { pergunta: 'Qual é a soma dos ângulos internos de um triângulo?', opcoes: ['90°', '180°', '270°', '360°'], correta: 1, explicacao: 'A soma dos ângulos internos de um triângulo é sempre 180°.' },
-          { pergunta: 'O que é a razão entre 10 e 2?', opcoes: ['5', '10', '2', '20'], correta: 0, explicacao: 'A razão é 10/2 = 5.' },
-          { pergunta: 'Qual é o volume de um cubo de aresta 3?', opcoes: ['9', '18', '27', '81'], correta: 2, explicacao: 'Volume = aresta³ = 3³ = 27.' },
-          { pergunta: 'O que é uma progressão aritmética?', opcoes: ['Sequência com diferença constante', 'Sequência com razão constante', 'Sequência com soma constante', 'Sequência aleatória'], correta: 0, explicacao: 'Uma progressão aritmética (PA) é uma sequência onde a diferença entre termos consecutivos é constante.' },
-          { pergunta: 'Qual é o valor de 2⁵?', opcoes: ['16', '32', '64', '128'], correta: 1, explicacao: '2⁵ = 2×2×2×2×2 = 32.' },
-          { pergunta: 'O que é a equação do segundo grau?', opcoes: ['Equação com x²', 'Equação com x', 'Equação com x³', 'Equação com x⁴'], correta: 0, explicacao: 'A equação do segundo grau é da forma ax² + bx + c = 0.' },
-          { pergunta: 'Qual é a distância entre os pontos (2,3) e (5,7)?', opcoes: ['4', '5', '6', '7'], correta: 1, explicacao: 'Distância = √[(5-2)² + (7-3)²] = √(9+16) = √25 = 5.' }
-        ]
-      }
-    };
+        DROP TRIGGER IF EXISTS update_perguntas_updated_at ON perguntas_quiz;
+        CREATE TRIGGER update_perguntas_updated_at 
+            BEFORE UPDATE ON perguntas_quiz 
+            FOR EACH ROW 
+            EXECUTE FUNCTION update_updated_at_column();
 
-    // ========== ESTADO ==========
-    let currentArea = 'linguagens';
-    let currentSub = 'Língua Portuguesa';
-    let questions = [];
-    let currentIndex = 0;
-    let answered = false;
+        -- Tabela para estatísticas de respostas dos usuários
+        CREATE TABLE IF NOT EXISTS respostas_usuarios (
+            id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+            pergunta_id BIGINT REFERENCES perguntas_quiz(id) ON DELETE CASCADE,
+            usuario_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+            resposta_usuario CHAR(1) CHECK (resposta_usuario IN ('A', 'B', 'C', 'D', 'E')),
+            correta BOOLEAN,
+            tempo_resposta INTEGER,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(pergunta_id, usuario_id)
+        );
 
-    // DOM
-    const disciplineBtns = document.querySelectorAll('.discipline-btn');
-    const subGrid = document.getElementById('subGrid');
-    const questionDisplay = document.getElementById('questionDisplay');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const nextBtn = document.getElementById('nextBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const counterSpan = document.getElementById('counter');
-    const feedbackEmoji = document.getElementById('feedbackEmoji');
-    const feedbackMessage = document.getElementById('feedbackMessage');
-    const feedbackExplication = document.getElementById('feedbackExplication');
+        CREATE INDEX IF NOT EXISTS idx_respostas_usuario ON respostas_usuarios(usuario_id);
+        CREATE INDEX IF NOT EXISTS idx_respostas_pergunta ON respostas_usuarios(pergunta_id);
 
-    // ========== FUNÇÕES ==========
-    function getSubdisciplines(area) {
-      const areaData = bank[area];
-      if (!areaData) return [];
-      return Object.keys(areaData);
-    }
+        -- Função para buscar perguntas
+        CREATE OR REPLACE FUNCTION buscar_perguntas(
+            p_area VARCHAR DEFAULT NULL,
+            p_materia VARCHAR DEFAULT NULL,
+            p_sub_tema VARCHAR DEFAULT NULL,
+            p_quantidade INTEGER DEFAULT 10
+        )
+        RETURNS SETOF perguntas_quiz AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT *
+            FROM perguntas_quiz
+            WHERE (p_area IS NULL OR area_conhecimento = p_area)
+                AND (p_materia IS NULL OR materia = p_materia)
+                AND (p_sub_tema IS NULL OR sub_tema = p_sub_tema)
+            ORDER BY RANDOM()
+            LIMIT p_quantidade;
+        END;
+        $$ LANGUAGE plpgsql;
+        `;
 
-    function getQuestions(area, sub) {
-      const areaData = bank[area];
-      if (!areaData) return [];
-      return areaData[sub] || [];
-    }
+        // ============================================
+        // VARIÁVEIS GLOBAIS
+        // ============================================
+        let allQuestions = [];
+        let filteredQuestions = [];
+        let currentPage = 0;
+        const QUESTIONS_PER_PAGE = 5;
+        let userAnswers = {};
+        let questionStatus = {};
 
-    function renderSubButtons(area) {
-      const subs = getSubdisciplines(area);
-      subGrid.innerHTML = '<span class="sub-grid-label">📌 Matéria:</span>';
-      if (subs.length === 0) {
-        const span = document.createElement('span');
-        span.textContent = 'Nenhuma matéria disponível';
-        span.style.color = '#6f8fa0';
-        subGrid.appendChild(span);
-        return;
-      }
-      subs.forEach(sub => {
-        const btn = document.createElement('button');
-        btn.className = 'sub-btn';
-        btn.textContent = sub;
-        btn.dataset.sub = sub;
-        if (sub === currentSub) btn.classList.add('active-sub');
-        btn.addEventListener('click', function() {
-          const newSub = this.dataset.sub;
-          if (newSub !== currentSub) {
-            currentSub = newSub;
-            loadSubject(currentArea, currentSub);
-          }
-        });
-        subGrid.appendChild(btn);
-      });
-    }
+        // ============================================
+        // FUNÇÕES PRINCIPAIS
+        // ============================================
 
-    function loadSubject(area, sub) {
-      currentArea = area;
-      currentSub = sub;
-      questions = getQuestions(area, sub);
-      currentIndex = 0;
-      answered = false;
-      renderQuestion();
-      updateActiveButtons();
-      clearFeedback();
-      if (questions.length > 0) {
-        counterSpan.textContent = `1 / ${questions.length}`;
-      } else {
-        counterSpan.textContent = '0 / 0';
-      }
-    }
+        // Carregar perguntas do Supabase
+        async function loadQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '<div class="loading">Carregando perguntas</div>';
 
-    function renderQuestion() {
-      if (!questions || questions.length === 0) {
-        questionDisplay.textContent = 'Nenhuma pergunta disponível para esta matéria.';
-        optionsContainer.innerHTML = '';
-        return;
-      }
-      const q = questions[currentIndex];
-      questionDisplay.textContent = q.pergunta;
-      optionsContainer.innerHTML = '';
-      q.opcoes.forEach((texto, idx) => {
-        const div = document.createElement('div');
-        div.className = 'option-item';
-        div.dataset.index = idx;
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'questionOption';
-        radio.value = idx;
-        radio.id = `opt_${idx}`;
-        const label = document.createElement('label');
-        label.htmlFor = `opt_${idx}`;
-        label.textContent = texto;
-        div.appendChild(radio);
-        div.appendChild(label);
-        optionsContainer.appendChild(div);
+            try {
+                const area = document.getElementById('areaFilter').value;
+                const materia = document.getElementById('materiaFilter').value;
+                const dificuldade = document.getElementById('dificuldadeFilter').value;
 
-        // Ao clicar na opção, verifica automaticamente
-        div.addEventListener('click', function(e) {
-          // Se já respondeu, não faz nada
-          if (answered) return;
-          
-          const radio = this.querySelector('input[type="radio"]');
-          if (radio) {
-            radio.checked = true;
-            // Dispara a verificação automática
-            autoCheckAnswer(idx);
-          }
+                let url = `${SUPABASE_URL}/rest/v1/perguntas_quiz?select=*`;
+
+                const conditions = [];
+                if (area) conditions.push(`area_conhecimento=eq.${encodeURIComponent(area)}`);
+                if (materia) conditions.push(`materia=eq.${encodeURIComponent(materia)}`);
+                if (dificuldade) conditions.push(`dificuldade=eq.${dificuldade}`);
+
+                if (conditions.length > 0) {
+                    url += `&${conditions.join('&')}`;
+                }
+
+                const response = await fetch(url, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    // Se a tabela não existe, mostrar instrução para criar
+                    if (response.status === 404) {
+                        container.innerHTML = `
+                            <div class="error">
+                                <strong>⚠️ Tabela não encontrada!</strong>
+                                <p>Você precisa criar a tabela no Supabase primeiro.</p>
+                                <p>Execute o seguinte SQL no SQL Editor do Supabase:</p>
+                                <pre style="background:#f7fafc;padding:15px;border-radius:8px;overflow:auto;font-size:0.8em;max-height:300px;">${SQL_CREATE_TABLE}</pre>
+                                <button onclick="loadQuestions()" class="btn-primary" style="margin-top:15px;">Tentar novamente</button>
+                            </div>
+                        `;
+                        return;
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                allQuestions = await response.json();
+                filteredQuestions = [...allQuestions];
+                
+                if (filteredQuestions.length === 0) {
+                    container.innerHTML = `
+                        <div class="error">
+                            <strong>📭 Nenhuma pergunta encontrada!</strong>
+                            <p>Por favor, insira algumas perguntas no banco de dados.</p>
+                            <button onclick="loadQuestions()" class="btn-primary" style="margin-top:15px;">Tentar novamente</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                currentPage = 0;
+                renderQuestions();
+                updateStats();
+                updatePagination();
+
+            } catch (error) {
+                console.error('Erro ao carregar perguntas:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Erro ao carregar perguntas:</strong>
+                        <p>${error.message}</p>
+                        <button onclick="loadQuestions()" class="btn-primary" style="margin-top:15px;">Tentar novamente</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Renderizar perguntas da página atual
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            const start = currentPage * QUESTIONS_PER_PAGE;
+            const end = Math.min(start + QUESTIONS_PER_PAGE, filteredQuestions.length);
+            const pageQuestions = filteredQuestions.slice(start, end);
+
+            if (pageQuestions.length === 0) {
+                container.innerHTML = '<div class="loading">Nenhuma pergunta encontrada</div>';
+                return;
+            }
+
+            let html = '';
+            pageQuestions.forEach((q, index) => {
+                const globalIndex = start + index;
+                const status = questionStatus[globalIndex] || {};
+                const isAnswered = status.answered || false;
+                const isCorrect = status.correct || false;
+                const selectedOption = status.selected || null;
+
+                html += `
+                    <div class="question-card" id="question-${globalIndex}">
+                        <div class="question-header">
+                            <span class="question-number">Pergunta ${globalIndex + 1} de ${filteredQuestions.length}</span>
+                            <div class="question-tags">
+                                <span class="tag tag-materia">${q.materia}</span>
+                                <span class="tag tag-area">${q.area_conhecimento}</span>
+                                <span class="tag tag-dificuldade">${q.dificuldade || 'Médio'}</span>
+                            </div>
+                        </div>
+                        <div class="question-text">${q.pergunta}</div>
+                        <div class="options">
+                            ${['A', 'B', 'C', 'D', 'E'].map(letter => {
+                                const optionText = q[`opcao_${letter.toLowerCase()}`];
+                                const isSelected = selectedOption === letter;
+                                const isCorrectOption = q.resposta_correta === letter;
+                                let classes = 'option';
+                                if (isAnswered) {
+                                    classes += ' disabled';
+                                    if (isSelected && isCorrectOption) classes += ' correct';
+                                    else if (isSelected && !isCorrectOption) classes += ' wrong';
+                                    else if (isCorrectOption) classes += ' correct';
+                                } else if (isSelected) {
+                                    classes += ' selected';
+                                }
+                                return `
+                                    <div class="${classes}" onclick="${!isAnswered ? `selectOption(${globalIndex}, '${letter}')` : ''}">
+                                        <span class="option-letter">${letter}.</span>
+                                        <span>${optionText || ''}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+                            <strong>💡 Explicação:</strong><br>
+                            ${q.explicacao || 'Explicação não disponível.'}<br>
+                            <strong>✅ Resposta correta: ${q.resposta_correta}</strong>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateStats();
+            updatePagination();
+            updateButtons();
+        }
+
+        // Selecionar uma opção
+        function selectOption(index, letter) {
+            if (questionStatus[index] && questionStatus[index].answered) return;
+
+            const question = filteredQuestions[index];
+            const isCorrect = question.resposta_correta === letter;
+
+            questionStatus[index] = {
+                answered: true,
+                selected: letter,
+                correct: isCorrect
+            };
+
+            // Salvar resposta no Supabase (opcional)
+            saveAnswer(index, letter, isCorrect);
+
+            renderQuestions();
+            updateStats();
+        }
+
+        // Salvar resposta no Supabase
+        async function saveAnswer(index, letter, isCorrect) {
+            const question = filteredQuestions[index];
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/respostas_usuarios`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify({
+                        pergunta_id: question.id,
+                        resposta_usuario: letter,
+                        correta: isCorrect,
+                        tempo_resposta: 0
+                    })
+                });
+            } catch (error) {
+                console.error('Erro ao salvar resposta:', error);
+            }
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            const total = filteredQuestions.length;
+            const answered = Object.values(questionStatus).filter(s => s.answered).length;
+            const correct = Object.values(questionStatus).filter(s => s.answered && s.correct).length;
+            const hitRate = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+
+            document.getElementById('totalQuestions').textContent = total;
+            document.getElementById('answeredQuestions').textContent = answered;
+            document.getElementById('correctAnswers').textContent = correct;
+            document.getElementById('hitRate').textContent = `${hitRate}%`;
+        }
+
+        // Atualizar paginação
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredQuestions.length / QUESTIONS_PER_PAGE);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            for (let i = 0; i < totalPages; i++) {
+                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i + 1}</button>`;
+            }
+            pagination.innerHTML = html;
+        }
+
+        // Atualizar botões de navegação
+        function updateButtons() {
+            const totalPages = Math.ceil(filteredQuestions.length / QUESTIONS_PER_PAGE);
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+            document.getElementById('nextBtn').disabled = currentPage >= totalPages - 1;
+        }
+
+        // Navegação
+        function goToPage(page) {
+            currentPage = page;
+            renderQuestions();
+        }
+
+        function previousPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderQuestions();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredQuestions.length / QUESTIONS_PER_PAGE);
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                renderQuestions();
+            }
+        }
+
+        // Resetar quiz
+        function resetQuiz() {
+            if (confirm('Tem certeza que deseja reiniciar o quiz? Todas as respostas serão perdidas.')) {
+                questionStatus = {};
+                renderQuestions();
+                updateStats();
+            }
+        }
+
+        // Carregar matérias para o filtro
+        async function loadMaterias() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/perguntas_quiz?select=materia`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const materias = [...new Set(data.map(q => q.materia))];
+                const select = document.getElementById('materiaFilter');
+                
+                // Manter a opção "Todas"
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Todas as Matérias</option>';
+                materias.forEach(m => {
+                    const option = document.createElement('option');
+                    option.value = m;
+                    option.textContent = m;
+                    select.appendChild(option);
+                });
+                select.value = currentValue;
+
+            } catch (error) {
+                console.error('Erro ao carregar matérias:', error);
+            }
+        }
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMaterias();
+            loadQuestions();
         });
 
-        // Também escuta o change do radio
-        radio.addEventListener('change', function() {
-          if (answered) return;
-          if (this.checked) {
-            autoCheckAnswer(idx);
-          }
-        });
-      });
-      // Limpa seleção
-      const radios = document.querySelectorAll('input[name="questionOption"]');
-      radios.forEach(r => r.checked = false);
-      answered = false;
-      if (questions.length > 0) {
-        counterSpan.textContent = `${currentIndex+1} / ${questions.length}`;
-      }
-      clearFeedback();
-      // Remove classes de cores
-      document.querySelectorAll('.option-item').forEach(el => {
-        el.classList.remove('correct', 'wrong', 'show-correct', 'disabled');
-        const radio = el.querySelector('input[type="radio"]');
-        if (radio) radio.disabled = false;
-      });
-    }
-
-    function autoCheckAnswer(selectedIdx) {
-      if (answered) return;
-      if (!questions || questions.length === 0) return;
-      
-      const q = questions[currentIndex];
-      const isCorrect = (selectedIdx === q.correta);
-      const correctText = q.opcoes[q.correta];
-
-      answered = true;
-
-      // Aplicar cores nas opções
-      const allOptions = document.querySelectorAll('.option-item');
-      allOptions.forEach((el, i) => {
-        el.classList.add('disabled');
-        const radio = el.querySelector('input[type="radio"]');
-        if (radio) radio.disabled = true;
-        if (i === q.correta) {
-          el.classList.add('show-correct');
-        }
-        if (i === selectedIdx && !isCorrect) {
-          el.classList.add('wrong');
-        }
-        if (i === selectedIdx && isCorrect) {
-          el.classList.add('correct');
-        }
-      });
-
-      // Feedback
-      const badge = document.createElement('span');
-      badge.className = `feedback-badge ${isCorrect ? 'acertou' : 'errou'}`;
-      badge.textContent = isCorrect ? '✅ Acertou!' : '❌ Errou!';
-      const oldBadge = document.querySelector('.feedback-badge');
-      if (oldBadge) oldBadge.remove();
-
-      feedbackEmoji.textContent = isCorrect ? '🎉' : '😓';
-      feedbackMessage.innerHTML = '';
-      feedbackMessage.appendChild(badge);
-      const correctSpan = document.createElement('span');
-      correctSpan.className = 'feedback-correct';
-      correctSpan.textContent = `Resposta correta: ${correctText}`;
-      feedbackMessage.appendChild(correctSpan);
-
-      feedbackExplication.style.display = 'block';
-      feedbackExplication.innerHTML = `<strong>💬 Explicação:</strong> ${q.explicacao}`;
-    }
-
-    function clearFeedback() {
-      feedbackEmoji.textContent = '💡';
-      feedbackMessage.textContent = 'Clique em uma alternativa para responder';
-      feedbackExplication.style.display = 'none';
-      feedbackExplication.innerHTML = '';
-      const badge = document.querySelector('.feedback-badge');
-      if (badge) badge.remove();
-    }
-
-    function updateActiveButtons() {
-      disciplineBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.area === currentArea) btn.classList.add('active');
-      });
-      const subBtns = subGrid.querySelectorAll('.sub-btn');
-      subBtns.forEach(btn => {
-        btn.classList.remove('active-sub');
-        if (btn.dataset.sub === currentSub) btn.classList.add('active-sub');
-      });
-    }
-
-    function nextQuestion() {
-      if (!questions || questions.length === 0) return;
-      let next = currentIndex + 1;
-      if (next >= questions.length) next = 0;
-      currentIndex = next;
-      answered = false;
-      renderQuestion();
-      clearFeedback();
-      const oldBadge = document.querySelector('.feedback-badge');
-      if (oldBadge) oldBadge.remove();
-      feedbackExplication.style.display = 'none';
-      feedbackMessage.textContent = 'Clique em uma alternativa para responder';
-      feedbackEmoji.textContent = '💡';
-      counterSpan.textContent = `${currentIndex+1} / ${questions.length}`;
-    }
-
-    function resetQuiz() {
-      loadSubject(currentArea, currentSub);
-      clearFeedback();
-      const oldBadge = document.querySelector('.feedback-badge');
-      if (oldBadge) oldBadge.remove();
-      feedbackExplication.style.display = 'none';
-      feedbackMessage.textContent = '🔁 Quiz reiniciado. Clique em uma alternativa.';
-      feedbackEmoji.textContent = '💡';
-    }
-
-    // ========== EVENTOS ==========
-    disciplineBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const area = this.dataset.area;
-        if (area !== currentArea) {
-          currentArea = area;
-          const subs = getSubdisciplines(area);
-          if (subs.length > 0) {
-            currentSub = subs[0];
-          } else {
-            currentSub = '';
-          }
-          renderSubButtons(area);
-          loadSubject(currentArea, currentSub);
-          clearFeedback();
-          const oldBadge = document.querySelector('.feedback-badge');
-          if (oldBadge) oldBadge.remove();
-          feedbackExplication.style.display = 'none';
-          feedbackMessage.textContent = `📚 Área ${area.charAt(0).toUpperCase()+area.slice(1)} selecionada.`;
-        }
-      });
-    });
-
-    nextBtn.addEventListener('click', nextQuestion);
-    resetBtn.addEventListener('click', resetQuiz);
-
-    // ========== INICIALIZA ==========
-    currentArea = 'linguagens';
-    currentSub = 'Língua Portuguesa';
-    renderSubButtons(currentArea);
-    loadSubject(currentArea, currentSub);
-    updateActiveButtons();
-    feedbackMessage.textContent = '📌 Clique em uma alternativa para responder automaticamente.';
-  })();
-</script>
+        // Mostrar SQL de criação quando a tabela não existe
+        console.log('SQL para criar a tabela no Supabase:');
+        console.log(SQL_CREATE_TABLE);
+    </script>
 </body>
 </html>
